@@ -68,3 +68,18 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+
+
+
+## Plan
+
+1. Homepage: The homepage could provide navigation options for different sections of the website, such as "Courses," "Departments," and "Students."
+2. Courses Page: This page could list all available courses. Each course could be displayed with its title, description, and the department it belongs to. Additionally, there could be links or buttons to view the students enrolled in each course and the assignments associated with it.
+3. Departments Page: Here, users could see a list of departments offered by the university. Each department might have its name and description displayed. Users could click on a department to view the courses offered by that department.
+4. Students Page: This page could display a list of students enrolled in the university. Each student's name, ID, and other relevant information could be shown. Users could click on a student's name to view the courses they are enrolled in.
+5. Individual Course Page: When a user selects a course, they could be directed to a page dedicated to that course. Here, they could see details about the course, such as its title, description, department, and possibly the instructor. Additionally, there could be sections displaying the students enrolled in the course and the assignments associated with it.
+6. Individual Assignment Page: Clicking on an assignment within a course could lead to a page displaying details about that assignment, such as its title, description, due date, and any other relevant information.
+7. Navigation Bar: A navigation bar or menu could be present on every page, allowing users to easily switch between different sections of the website, such as "Courses," "Departments," and "Students."
