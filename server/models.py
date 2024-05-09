@@ -10,7 +10,7 @@ from config import db
 # association table
 student_course = db.Table('student_course_associations',
      db.Column('student_id', db.Integer, db.ForeignKey('students.id'), primary_key=True),
-     db.Column('course_id', db.Integer, db.ForeignKey('course.id'), primary_key=True)
+     db.Column('course_id', db.Integer, db.ForeignKey('courses.id'), primary_key=True)
     )
 
 class Student(db.Model):
@@ -41,7 +41,7 @@ class Student(db.Model):
             raise ValueError('Student email is required')
 
     def __repr__(self):
-        return '<Student %r>' % self. username 
+        return '<Student %r>' % self. name 
 
     
 class Course(db.Model):
@@ -50,12 +50,14 @@ class Course(db.Model):
     name = db.Column(db.String, unique=True, nullable=False)
     description = db.Column(db.String(120), nullable=False)
 
+    instructor_id = db.Column(db.Integer, db.ForeignKey('instructor.id'))
+
     # relationship mapping course to related students
     students = db.relationship('Student', secondary=student_course, back_populates='courses')
-
     instructor = db.relationship("Instructor", back_populates='courses')
+
     # add serialization rules
-    serialize_rules = ('-instructor.course', '-students.courses')
+    serialize_rules = ('-instructor.course', '-students.courses' )
 
     # add validation
     @validates('name')
@@ -84,6 +86,7 @@ class Instructor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
     
+
     # relationships
     courses = db.relationship('Course', back_populates='instructors')
 

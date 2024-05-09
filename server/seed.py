@@ -8,9 +8,10 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db, Student, Course
+from models import db, Student, Course, student_course
+# , Department, Instructor
 
-
+fake = Faker()
 
 def create_students():
     students = []
@@ -20,7 +21,8 @@ def create_students():
             email=fake.email()
         )
         students.append(s)
-
+        
+    print(students)
     return students
 
 def create_courses():
@@ -32,33 +34,39 @@ def create_courses():
         )
         courses.append(c)
 
+    print(courses)
     return courses
 
 
+create_students()
+# create_courses()
 
 
+# if __name__ == '__main__':
+#     fake = Faker()
+#     with app.app_context():
+#         # Seed code goes here!
 
-if __name__ == '__main__':
-    fake = Faker()
-    with app.app_context():
-        # Seed code goes here!
-
-        print("Clearing db...")
-        Student.query.delete()
-
-        print("Seeding students...")
-        students = create_students()
-        db.session.add_all(students)
-        db.session.commit()
-
-        print("Seeding courses...")
-        courses = create_courses()
-        db.session.add_all(courses)
-        db.session.commit()
+#         print("Clearing db...")
+#         db.session.query(student_course).delete()
+#         db.session.commit()
+#         Student.query.delete()
+#         Course.query.delete()
+#         Department.query.delete()
+#         Instructor.query.delete()
 
 
-        print("Done seeding!")
+#         print("Seeding students...")
+#         students = create_students()
+#         db.session.add_all(students)
+#         db.session.commit()
+
+#         print("Seeding courses...")
+#         courses = create_courses()
+#         db.session.add_all(courses)
+#         db.session.commit()
 
 
+#         print("Done seeding!")
 
 
