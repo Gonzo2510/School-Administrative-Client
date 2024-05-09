@@ -50,10 +50,13 @@ class Course(db.Model):
     name = db.Column(db.String, unique=True, nullable=False)
     description = db.Column(db.String(120), nullable=False)
 
-    instructor_id = db.Column(db.Integer, db.ForeignKey('instructor.id'))
-
+    # Foreign key referenceing the Instructor table
+    instructor_id = db.Column(db.Integer, db.ForeignKey('instructors.id'))
+    
     # relationship mapping course to related students
     students = db.relationship('Student', secondary=student_course, back_populates='courses')
+
+    # Relationship to the Instructor table
     instructor = db.relationship("Instructor", back_populates='courses')
 
     # add serialization rules
@@ -88,7 +91,7 @@ class Instructor(db.Model):
     
 
     # relationships
-    courses = db.relationship('Course', back_populates='instructors')
+    courses = db.relationship('Course', back_populates='instructor')
 
     # serialization rules
     serialize_rules = ('-courses.instructor', )
