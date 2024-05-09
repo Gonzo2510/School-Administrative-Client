@@ -45,8 +45,12 @@ if __name__ == '__main__':
         # Seed code goes here!
 
         print("Clearing db...")
-        db.session.query(student_course).delete()
-        db.session.commit()
+        if student_course:
+            db.session.execute(student_course.delete())
+            db.session.commit()
+            print("true")
+        else:
+            print('false')
         Student.query.delete()
         Course.query.delete()
         Department.query.delete()
