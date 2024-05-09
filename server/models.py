@@ -1,5 +1,7 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.orm import validates
+
 
 from config import db
 
@@ -7,8 +9,8 @@ from config import db
 
 # association table
 student_course = db.Table('student_course_associations',
-     db.Column('student_id', db.Integer, db.ForeignKey('students.id')),
-     db.Column('course_id', db.Integer, db.ForeignKey('course.id'))
+     db.Column('student_id', db.Integer, db.ForeignKey('students.id'), primary_key=True),
+     db.Column('course_id', db.Integer, db.ForeignKey('course.id'), primary_key=True)
     )
 
 class Student(db.Model):
@@ -19,9 +21,24 @@ class Student(db.Model):
 
     # relationship mapping student to related courses
     courses = db.relationship('Course', secondary=student_course, back_populates = "students")
+
     # serialization rules
     serialize_rules = ('-courses.students', )
+
     # add validation
+    @validates('name')
+    def validates_name(self, key, name):
+        if name:
+            return name
+        else:
+            raise ValueError('Student name is required')
+    
+    @validates('email')
+    def validates_email(self, key, email):
+        if email:
+            return email
+        else:
+            raise ValueError('Student email is required')
 
     def __repr__(self):
         return '<Student %r>' % self. username 
@@ -41,6 +58,12 @@ class Course(db.Model):
     serialize_rules = ('-instructor.course', '-students.courses')
 
     # add validation
+    @validates('name')
+    def validates_name(self, key, name):
+        if name:
+            return name
+        else:
+            raise ValueError('Course name is required')
 
     def __repr__(self):
         return '<Course %r>' % self.name 

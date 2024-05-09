@@ -23,6 +23,19 @@ def create_students():
 
     return students
 
+def create_courses():
+    courses = []
+    for _ in range(10):
+        c = Course(
+            name=fake.name(),
+            email=fake.sentence()
+        )
+        courses.append(c)
+
+    return courses
+
+
+
 
 
 if __name__ == '__main__':
@@ -37,3 +50,15 @@ if __name__ == '__main__':
         students = create_students()
         db.session.add_all(students)
         db.session.commit()
+
+        print("Seeding courses...")
+        courses = create_courses()
+        db.session.add_all(courses)
+        db.session.commit()
+
+
+        print("Done seeding!")
+
+
+
+
