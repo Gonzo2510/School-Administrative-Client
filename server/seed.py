@@ -43,14 +43,11 @@ if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
         # Seed code goes here!
-
+        
+        db.create_all()
         print("Clearing db...")
-        if student_course:
-            db.session.execute(student_course.delete())
-            db.session.commit()
-            print("true")
-        else:
-            print('false')
+        db.session.execute(student_course.delete())
+        db.session.commit()
         Student.query.delete()
         Course.query.delete()
         Department.query.delete()
