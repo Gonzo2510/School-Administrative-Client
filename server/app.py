@@ -33,8 +33,8 @@ def students():
 @app.route('/courses', methods=['GET'])
 def courses():
     if request.method == 'GET':
-        courses = Course.query.all()
 
+        courses = Course.query.all()
         courses_dict = [course.to_dict() for course in courses]
 
         response = make_response(
@@ -42,7 +42,29 @@ def courses():
             200
         )
 
+@app.route('/departments', methods=['GET'])
+def departments():
+    if request.method == 'GET':
+
+        departments = Department.query.all()
+        departments_dict = [department.to_dict() for department in departments]
+
+        response = make_response(
+            departments_dict,
+            200
+        )
     
+@app.route('/instructors', methods=['GET'])
+def instructor():
+    if request.method == 'GET':
+
+        instructor = Instructor.query.all()
+        instructor_dict = [instructor.to_dict() for instructor in instructor]
+
+        response = make_response(
+            instructor_dict,
+            200
+        )
     return response
 
 
