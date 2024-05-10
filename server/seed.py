@@ -24,11 +24,34 @@ def create_students():
     # print(students)
     return students
 
-def create_courses():
+def create_courses():  
     courses = []
-    for _ in range(10):
+    course_names = [
+    "Algebra I",
+    "Geometry",
+    "Algebra II",
+    "Precalculus",
+    "Calculus",
+    "Biology",
+    "Chemistry",
+    "Physics",
+    "Earth Science",
+    "Environmental Science",
+    "Anatomy and Physiology",
+    "English Literature",
+    "American Literature",
+    "World Literature",
+    "Creative Writing",
+    "AP English Language and Composition",
+    "AP English Literature and Composition",
+    "World History",
+    "U.S. History",
+    "Government and Politics"
+]
+    
+    for name in course_names:
         c = Course(
-            name=fake.name(),
+            name = name,
             description=fake.sentence()
         )
         courses.append(c)
@@ -36,11 +59,27 @@ def create_courses():
     # print(courses)
     return courses
 
+def create_departments():
+    d1 = Department(name = "Science")
+    d2 = Department(name = "Math")
+    d3 = Department(name = "English")
+    d4 = Department(name = "Social Studies")
+    departments = [d1, d2, d3, d4]
+    return departments
+
+
+def create_instructors():
+    instructors = []
+    for _ in range(6):
+        i = Instructor(
+            name=fake.name()
+        )
+        instructors.append(i)
+    return instructors
 
 
 
 if __name__ == '__main__':
-    fake = Faker()
     with app.app_context():
         # Seed code goes here!
         
@@ -53,7 +92,6 @@ if __name__ == '__main__':
         Department.query.delete()
         Instructor.query.delete()
 
-
         print("Seeding students...")
         students = create_students()
         db.session.add_all(students)
@@ -62,6 +100,16 @@ if __name__ == '__main__':
         print("Seeding courses...")
         courses = create_courses()
         db.session.add_all(courses)
+        db.session.commit()
+
+        print("Seeding departments...")
+        departments = create_departments()
+        db.session.add_all(departments)
+        db.session.commit()
+
+        print("Seeding instructors...")
+        instructors = create_instructors()
+        db.session.add_all(instructors)
         db.session.commit()
 
 
