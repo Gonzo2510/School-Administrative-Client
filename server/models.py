@@ -13,7 +13,7 @@ student_course = db.Table('student_course_associations',
      db.Column('course_id', db.Integer, db.ForeignKey('courses.id'), primary_key=True)
     )
 
-class Student(db.Model):
+class Student(db.Model, SerializerMixin):
     __tablename__ = 'students'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
@@ -44,7 +44,7 @@ class Student(db.Model):
         return '<Student %r>' % self. name 
 
     
-class Course(db.Model):
+class Course(db.Model, SerializerMixin):
     __tablename__ = 'courses'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
@@ -74,7 +74,7 @@ class Course(db.Model):
         return '<Course %r>' % self.name 
 
 
-class Department(db.Model):
+class Department(db.Model, SerializerMixin):
     __tablename__ = 'departments'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
@@ -84,7 +84,7 @@ class Department(db.Model):
     def __repr__(self):
         return f'<Department {self.id}, {self.name}>'
 
-class Instructor(db.Model):
+class Instructor(db.Model, SerializerMixin):
     __tablename__ = 'instructors'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
