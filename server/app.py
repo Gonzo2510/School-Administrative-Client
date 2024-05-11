@@ -29,6 +29,7 @@ def students():
             students_dict,
             200
         )
+    return response
 
 @app.route('/courses', methods=['GET'])
 def courses():
@@ -41,6 +42,7 @@ def courses():
             courses_dict,
             200
         )
+    return response
 
 @app.route('/departments', methods=['GET'])
 def departments():
@@ -53,6 +55,7 @@ def departments():
             departments_dict,
             200
         )
+    return response
     
 @app.route('/instructors', methods=['GET'])
 def instructor():
