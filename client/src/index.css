@@ -5,3 +5,41 @@
   --text: hsla(0, 0%, 100%, 0.88);
 }
 
+.card_item {
+  width: calc(25% - 20px); /* Adjust as needed */
+  margin: 10px; /* Adjust as needed */
+  list-style: none;
+  box-sizing: border-box;
+  float: left;
+}
+
+.card {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.card_title {
+  font-weight: bold;
+}
+
+.card_description {
+  margin-top: 10px;
+}
+
+.card_instructor {
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.card_department {
+  margin-top: 10px;
+}
+
+.card_students {
+  margin-top: 10px;
+  color: #888;
+  font-size: 0.9em;
+}
