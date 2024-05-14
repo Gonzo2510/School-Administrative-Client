@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Router, Link, Switch, Route} from "react-router-dom";
 
 function NavBar() {
     return (
-      <nav>
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Students</a></li>
-          <li><a href="#">Courses</a></li>
-          <li><a href="#">Instructors</a></li>
-        </ul>
-      </nav>
+        <nav>
+          <ul>
+            <li>
+            <Link to="/">Home</Link>
+            </li>
+            <li><Link to="/courses">Courses</Link></li>
+            <li><Link to="/students">Students</Link></li>
+            <li><Link to="/instructors">Instructors</Link></li>
+          </ul>
+        </nav>
     );
   }
   export default NavBar;
