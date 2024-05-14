@@ -5,6 +5,8 @@
   --text: hsla(0, 0%, 100%, 0.88);
 }
 
+
+/* card containter */
 .card_item {
   width: calc(25% - 20px); /* Adjust as needed */
   margin: 10px; /* Adjust as needed */
@@ -42,4 +44,30 @@
   margin-top: 10px;
   color: #888;
   font-size: 0.9em;
+}
+
+
+
+
+/* Navbar */
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+nav li {
+  float: left;
+}
+
+nav li a {
+  display: block;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: black;
+}
+
+nav li a:hover {
+  background-color: #ddd;
 }
