@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Router, Link, Switch, Route} from "react-router-dom";
+import { Link } from "react-router-dom";
+
 
 function NavBar() {
     return (
