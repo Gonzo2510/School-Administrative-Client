@@ -5,6 +5,7 @@ import InstructorsContainer from "./InstructorsContainer"
 import NavBar from "./NavBar";
 import Home from "./Home";
 import StudentsContainer from "./StudentsContainer";
+import Register from "./Register";
 
 
 function App() {
@@ -22,10 +23,12 @@ function App() {
             <Route path="/instructors">
               <InstructorsContainer/>
             </Route>
-            <Route path='/students'>
+            <Route path="/students">
               <StudentsContainer/>
             </Route>
-            {/* <Route path="/register" component={Register} /> */}
+            <Route path="/register">
+            <Register/>
+            </Route>
             {/* <Route path="/logout" component={Logout} /> */}
             {/* <Route path="/profile" component={UserProfile} /> */}
         </Switch>
