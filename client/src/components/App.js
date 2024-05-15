@@ -4,27 +4,13 @@ import CourseContainer from "./CourseContainer";
 import InstructorsContainer from "./InstructorsContainer"
 import NavBar from "./NavBar";
 import Home from "./Home";
+import StudentsContainer from "./StudentsContainer";
 
 
 function App() {
 
-  const [studentsArr, setStudentsArr] = useState([])
-  
-  
-  
-  useEffect(()=>{
-    fetch("http://127.0.0.1:5555/students")
-    .then((response) => response.json())
-    .then((data) => setStudentsArr(data))
-  }, [])
-  
-
-
-  
-  
   return(<> 
     <h1>Project Client</h1>
-
     <Router>
         <NavBar />
         <Switch>
@@ -36,13 +22,14 @@ function App() {
             <Route path="/instructors">
               <InstructorsContainer/>
             </Route>
+            <Route path='/students'>
+              <StudentsContainer/>
+            </Route>
             {/* <Route path="/register" component={Register} /> */}
             {/* <Route path="/logout" component={Logout} /> */}
             {/* <Route path="/profile" component={UserProfile} /> */}
         </Switch>
     </Router>
-
-
   </>);
 }
 
