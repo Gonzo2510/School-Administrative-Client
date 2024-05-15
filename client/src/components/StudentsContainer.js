@@ -3,7 +3,6 @@ import Student from "./Student";
 
 
 function StudentsContainer() {
-    console.log('Students')
     const [studentsArr, setStudentsArr] = useState([])
 
     useEffect(()=>{

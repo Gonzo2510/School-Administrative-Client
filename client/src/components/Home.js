@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 
 function Home() {
-    console.log("Home")
     
     return (
         <h1>

@@ -3,7 +3,6 @@ import Course from "./Course";
 
 
 function CourseContainer() {
-  console.log("Course Container")
   const [coursesArr, setCoursesArr] = useState([])
 
   useEffect(()=>{

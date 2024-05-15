@@ -3,7 +3,6 @@ import Instructor from "./Instructor";
 
 
 function InstructorsContainer() {
-    console.log('Instructors')
     const [instructorsArr, setInstructorsArr] = useState([])
 
     useEffect(()=>{
