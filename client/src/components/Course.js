@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 
-function Course( { description, id, instructor, instructor_id, name, students } ) {
-
+function Course({ description, id, instructor, instructor_id, name, students }) {
     return (
       <li className="card_item">
         <div className="card">

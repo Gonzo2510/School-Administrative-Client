@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 
 function NavBar() {
+
     return (
         <nav>
           <ul>
@@ -16,4 +17,5 @@ function NavBar() {
         </nav>
     );
   }
+
   export default NavBar;

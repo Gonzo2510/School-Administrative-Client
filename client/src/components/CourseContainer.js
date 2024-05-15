@@ -33,5 +33,4 @@ function CourseContainer() {
     )
   }
 
-
   export default CourseContainer;

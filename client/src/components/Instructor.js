@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 
-function Instructor( {instructor, department } ) {
+function Instructor({ instructor, department }) {
 
     return (
       <li className="ins_card_item">
