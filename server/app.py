@@ -29,7 +29,29 @@ def students():
             students_dict,
             200
         )
+    
     return response
+
+@app.route('/students/<int:id>', methods=['GET', "DELETE"])
+def student_by_id(id):
+    student = Student.query.filter(Student.id == id).first()
+    
+    if request.method == 'DELETE':
+        if student:
+            db.session.delete(student)
+            db.session.commit()
+            response = make_response(
+                {},
+                204
+            )
+        else:
+            response = make_response(
+                {"error": "Student not found"}, 
+                404
+            )
+    
+    return response
+
 
 @app.route('/courses', methods=['GET'])
 def courses():
