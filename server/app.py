@@ -18,7 +18,7 @@ def index():
     return '<h1>Project Server</h1>'
 
 
-@app.route('/students', methods=['GET'])
+@app.route('/students', methods=['GET', 'POST'])
 def students():
     if request.method == 'GET':
         students = Student.query.all()
@@ -29,7 +29,26 @@ def students():
             students_dict,
             200
         )
-    
+    elif request.method == 'POST':
+        form_data = request.get_json()
+        try:
+            new_student_obj = Student(
+                name = form_data['name'],
+                email = form_data['email']
+            )
+            db.session.add(new_student_obj)
+            db.session.commit()
+
+            response = make_response(
+                new_student_obj.to_dict(),
+                201
+            )
+
+        except ValueError:
+            response = make_response(
+                {"error": ["validation error"]},
+                400
+            )
     return response
 
 @app.route('/students/<int:id>', methods=['GET', "DELETE"])

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 
 
-function Instructor({ instructor, department }) {
+function Instructor({ name, department }) {
 
     return (
-      <li className="ins_card_item">
+      <ul className="ins_card_item">
         <div className="card">
-          <div className="card_title">{instructor}</div>
-          <p className="card_department">{department}</p>
+          <div className="card_title">{name}</div>
+          <p className="card_department">Department: {department}</p>
         </div>
-      </li>
+      </ul>
     )
   }
 

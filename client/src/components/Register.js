@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 function Register() {
-    console.log("register")
   const [formData, setFormData] = useState({
     name: '',
     email: ''
@@ -17,8 +16,27 @@ function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // logic to handle submission
-    console.log(formData); 
+    fetch("http://127.0.0.1:5555/students", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+    .then((r) => {r.json()})
+    .then((signup) => {
+          setTime("");
+          setActivityId("");
+          setErrors([]);
+          onAddSignup(signup);
+        });
+
+    );
+    console.log(formData);
+    setFormData({
+      name: '',
+      email: ''
+    }) 
   };
 
   return (
