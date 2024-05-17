@@ -23,20 +23,13 @@ function Register() {
       },
       body: JSON.stringify(formData),
     })
-    .then((r) => {r.json()})
+    .then((r) => r.json())
     .then((signup) => {
-          setTime("");
-          setActivityId("");
-          setErrors([]);
-          onAddSignup(signup);
-        });
-
-    );
-    console.log(formData);
-    setFormData({
-      name: '',
-      email: ''
-    }) 
+      setFormData({
+        name: '',
+        email: ''
+      }) 
+    });
   };
 
   return (
