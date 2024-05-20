@@ -11,6 +11,15 @@ function StudentsContainer() {
       .then((data) => setStudentsArr(data))
     }, [])
 
+    const handleDelete = (id) => {
+        fetch("http://127.0.0.1:5555/students/${id}", {
+            method: "DELETE",
+        })
+        .then((r) => {
+            setStudentsArr(Student.filter((student) => student.id != id));
+        })
+    }
+
     const renderedStudentsArr = studentsArr.map((studentObj) =>
     <Student
         key = {studentObj.id}
