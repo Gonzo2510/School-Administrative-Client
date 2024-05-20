@@ -8,10 +8,15 @@ from config import db
 # Models go here!
 
 # association table
-student_course = db.Table('student_course_associations',
-     db.Column('student_id', db.Integer, db.ForeignKey('students.id'), primary_key=True),
-     db.Column('course_id', db.Integer, db.ForeignKey('courses.id'), primary_key=True)
-    )
+class Enrollment(db.Model):
+    __tablename__ = 'enrollments'
+    id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
+    grade = db.Column(db.String(2)) #user submittable attribute
+
+    student = db.relationship('Student', back_populates='enrollments')
+    course = db.relationship('Course', back_populates='enrollments')
 
 class Student(db.Model, SerializerMixin):
     __tablename__ = 'students'
@@ -20,7 +25,8 @@ class Student(db.Model, SerializerMixin):
     email = db.Column(db.String, unique=True, nullable=False)
 
     # relationship mapping student to related courses
-    courses = db.relationship('Course', secondary=student_course, back_populates = "students")
+    enrollments = db.relationship('Enrollment', back_populates = 'student')
+    courses = db.relationship('Course', secondary='enrollments', back_populates = "students")
 
     # serialization rules
     serialize_rules = ('-courses.students', )
@@ -50,11 +56,13 @@ class Course(db.Model, SerializerMixin):
     name = db.Column(db.String, unique=True, nullable=False)
     description = db.Column(db.String(120), nullable=False)
 
+    enrollments = db.relationship("Enrollment", back_populates='course')
+    
     # Foreign key referenceing the Instructor table
     instructor_id = db.Column(db.Integer, db.ForeignKey('instructors.id'))
-    
+
     # relationship mapping course to related students
-    students = db.relationship('Student', secondary=student_course, back_populates='courses')
+    students = db.relationship('Student', secondary='enrollments', back_populates='courses')
 
     # Relationship to the Instructor table
     instructor = db.relationship("Instructor", back_populates='courses')

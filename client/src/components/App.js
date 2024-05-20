@@ -6,6 +6,7 @@ import NavBar from "./NavBar";
 import Home from "./Home";
 import StudentsContainer from "./StudentsContainer";
 import Register from "./Register";
+import EnrollmentForm from "./EnrollmentForm";
 
 
 function App() {
@@ -29,7 +30,9 @@ function App() {
             <Route path="/register">
             <Register/>
             </Route>
-            {/* <Route path="/logout" component={Logout} /> */}
+            <Route path="/enrollment">
+              <EnrollmentForm/>
+            </Route>
             {/* <Route path="/profile" component={UserProfile} /> */}
         </Switch>
     </Router>

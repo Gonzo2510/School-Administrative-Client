@@ -9,7 +9,7 @@ from flask_restful import Resource
 # Local imports
 from config import app, db, api
 # Add your model imports
-from models import Student, Course, Department, Instructor
+from models import Student, Course, Department, Instructor, Enrollment
 
 # Views go here!
 
@@ -199,6 +199,17 @@ def instructor():
     return response
 
 
+@app.route('/enrollments', methods=['POST'])
+def create_enrollment():
+    data = request.get_json()
+    new_enrollment = Enrollment(
+        student_id=data['studentId'],
+        course_id=data['courseId'],
+        grade=data['grade']
+    )
+    db.session.add(new_enrollment)
+    db.session.commit()
+    return jsonify(new_enrollment.serialize()), 201
 
 
 
