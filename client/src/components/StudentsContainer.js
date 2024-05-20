@@ -12,19 +12,21 @@ function StudentsContainer() {
     }, [])
 
     const handleDelete = (id) => {
-        fetch("http://127.0.0.1:5555/students/${id}", {
+        fetch(`http://127.0.0.1:5555/students/${id}`, {
             method: "DELETE",
         })
         .then((r) => {
-            setStudentsArr(Student.filter((student) => student.id != id));
+            setStudentsArr(studentsArr.filter((student) => student.id != id));
         })
     }
 
     const renderedStudentsArr = studentsArr.map((studentObj) =>
     <Student
         key = {studentObj.id}
+        id = {studentObj.id}
         name = {studentObj.name}
         email = {studentObj.email}
+        onDelete={handleDelete}
     />
     )
 
@@ -32,7 +34,7 @@ function StudentsContainer() {
         <>
         <h2>Students</h2>
         {renderedStudentsArr}
-        </>
+        </> 
     )
 }
 
