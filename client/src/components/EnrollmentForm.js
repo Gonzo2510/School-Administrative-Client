@@ -1,58 +1,76 @@
 import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 
 const EnrollmentForm = ({ students, courses, onSubmit }) => {
   return (
     <Formik
       initialValues={{ studentId: '', courseId: '', grade: '' }}
-      validationSchema={Yup.object({
-        studentId: Yup.number().required('Required'),
-        courseId: Yup.number().required('Required'),
-        grade: Yup.string()
-          .matches(/^[A-F]$/, 'Invalid grade format')
-          .required('Required'),
-      })}
+      validate={(values) => {
+        const errors = {};
+        if (!values.studentId) {
+          errors.studentId = 'Required';
+        } else if (!Number.isInteger(Number(values.studentId))) {
+          errors.studentId = 'Must be a number';
+        }
+
+        if (!values.courseId) {
+          errors.courseId = 'Required';
+        } else if (!Number.isInteger(Number(values.courseId))) {
+          errors.courseId = 'Must be a number';
+        }
+
+        if (!values.grade) {
+          errors.grade = 'Required';
+        } else if (!/^[A-F]$/.test(values.grade)) {
+          errors.grade = 'Invalid grade format';
+        }
+
+        return errors;
+      }}
       onSubmit={(values, { setSubmitting }) => {
         onSubmit(values);
         setSubmitting(false);
       }}
     >
-      <Form>
-        <div>
-          <label htmlFor="studentId">Student</label>
-          <Field as="select" name="studentId">
-            <option value="" label="Select student" />
-            {students.map(student => (
-              <option key={student.id} value={student.id}>
-                {student.name}
-              </option>
-            ))}
-          </Field>
-          <ErrorMessage name="studentId" />
-        </div>
+      {({ isSubmitting }) => (
+        <Form>
+          <div>
+            <label htmlFor="studentId">Student</label>
+            <Field as="select" name="studentId">
+              <option value="" label="Select student" />
+              {students.map((student) => (
+                <option key={student.id} value={student.id}>
+                  {student.name}
+                </option>
+              ))}
+            </Field>
+            <ErrorMessage name="studentId" component="div" />
+          </div>
 
-        <div>
-          <label htmlFor="courseId">Course</label>
-          <Field as="select" name="courseId">
-            <option value="" label="Select course" />
-            {courses.map(course => (
-              <option key={course.id} value={course.id}>
-                {course.title}
-              </option>
-            ))}
-          </Field>
-          <ErrorMessage name="courseId" />
-        </div>
+          <div>
+            <label htmlFor="courseId">Course</label>
+            <Field as="select" name="courseId">
+              <option value="" label="Select course" />
+              {courses.map((course) => (
+                <option key={course.id} value={course.id}>
+                  {course.title}
+                </option>
+              ))}
+            </Field>
+            <ErrorMessage name="courseId" component="div" />
+          </div>
 
-        <div>
-          <label htmlFor="grade">Grade</label>
-          <Field name="grade" type="text" />
-          <ErrorMessage name="grade" />
-        </div>
+          <div>
+            <label htmlFor="grade">Grade</label>
+            <Field name="grade" type="text" />
+            <ErrorMessage name="grade" component="div" />
+          </div>
 
-        <button type="submit">Submit</button>
-      </Form>
+          <button type="submit" disabled={isSubmitting}>
+            Submit
+          </button>
+        </Form>
+      )}
     </Formik>
   );
 };
