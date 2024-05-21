@@ -15,7 +15,7 @@ function InstructorsContainer() {
     <Instructor
         key = {instructorObj.id}
         name = {instructorObj.name}
-        department={instructorObj.department}
+        courses = {instructorObj.courses}
     />
     )
 
