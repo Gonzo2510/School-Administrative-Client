@@ -7,7 +7,6 @@ from config import db
 
 # Models go here!
 
-# association table
 class Enrollment(db.Model):
     __tablename__ = 'enrollments'
     id = db.Column(db.Integer, primary_key=True)
@@ -58,8 +57,9 @@ class Course(db.Model, SerializerMixin):
 
     enrollments = db.relationship("Enrollment", back_populates='course')
     
-    # Foreign key referenceing the Instructor table
+    # Foreign key referenceing the Instructor/Department table
     instructor_id = db.Column(db.Integer, db.ForeignKey('instructors.id'))
+    department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
 
     # relationship mapping course to related students
     students = db.relationship('Student', secondary='enrollments', back_populates='courses')
@@ -67,8 +67,10 @@ class Course(db.Model, SerializerMixin):
     # Relationship to the Instructor table
     instructor = db.relationship("Instructor", back_populates='courses')
 
+    department = db.relationship('Department', back_populates='courses')
+
     # add serialization rules
-    serialize_rules = ('-instructor.course', '-students.courses' )
+    serialize_rules = ('-instructor.course', '-students.courses', '-department.courses', 'instructor.name', 'department.name')
 
     # add validation
     @validates('name')
@@ -88,6 +90,7 @@ class Department(db.Model, SerializerMixin):
     name = db.Column(db.String, unique=True, nullable=False)
 
     # Add relationships
+    courses = db.relationship('Course', back_populates='department')
     # course
 
     def __repr__(self):
@@ -102,7 +105,7 @@ class Instructor(db.Model, SerializerMixin):
     courses = db.relationship('Course', back_populates='instructor')
 
     # serialization rules
-    serialize_rules = ('-courses.instructor', )
+    serialize_rules = ('-courses.instructor',)
 
     def __repr__(self):
         return f'<Instructor {self.id}, {self.name}>'
