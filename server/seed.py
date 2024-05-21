@@ -8,7 +8,7 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db, Student, Course, student_course, Department, Instructor
+from models import db, Student, Course, Enrollment, Department, Instructor
 
 fake = Faker()
 
@@ -24,7 +24,7 @@ def create_students():
     # print(students)
     return students
 
-def create_courses():  
+def create_courses(departments, instructors):  
     courses = []
     course_names = [
     "Algebra I",
@@ -52,7 +52,9 @@ def create_courses():
     for name in course_names:
         c = Course(
             name = name,
-            description=fake.sentence()
+            description = fake.sentence(),
+            department_id = rc(departments).id,
+            instructor_id = rc(instructors).id
         )
         courses.append(c)
 
@@ -85,22 +87,11 @@ if __name__ == '__main__':
         
         db.create_all()
         print("Clearing db...")
-        db.session.execute(student_course.delete())
-        db.session.commit()
+        Enrollment.query.delete()
         Student.query.delete()
         Course.query.delete()
         Department.query.delete()
         Instructor.query.delete()
-
-        print("Seeding students...")
-        students = create_students()
-        db.session.add_all(students)
-        db.session.commit()
-
-        print("Seeding courses...")
-        courses = create_courses()
-        db.session.add_all(courses)
-        db.session.commit()
 
         print("Seeding departments...")
         departments = create_departments()
@@ -112,6 +103,17 @@ if __name__ == '__main__':
         db.session.add_all(instructors)
         db.session.commit()
 
+        print("Seeding students...")
+        students = create_students()
+        db.session.add_all(students)
+        db.session.commit()
+
+        print("Seeding courses...")
+        departments = Department.query.all()
+        instructors = Instructor.query.all()
+        courses = create_courses(departments, instructors)
+        db.session.add_all(courses)
+        db.session.commit()
 
         print("Done seeding!")
 
