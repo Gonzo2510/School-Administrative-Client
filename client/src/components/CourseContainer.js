@@ -15,8 +15,8 @@ function CourseContainer() {
       <Course
           key = {courseObj.id}
           description = {courseObj.description}
-          instructor = {courseObj.instructor}
-          instructor_id = {courseObj.instructor_id}
+          instructorName = {courseObj.instructor.name}
+          departmentName = {courseObj.department.name}
           name = {courseObj.name}
           students = {courseObj.students}
       />
