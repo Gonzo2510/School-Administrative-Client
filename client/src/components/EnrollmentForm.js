@@ -1,50 +1,68 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import './EnrollmentForm.css';
+import { useFormik } from 'formik';
 
-const EnrollmentForm = () => {
-    return (
-        <div>
-            <h1>Enrollment Form</h1>
-            <Formik
-                initialValues={{ firstName: '', lastName: '', email: '' }}
-                validationSchema={Yup.object({
-                    firstName: Yup.string()
-                        .max(15, 'Must be 15 characters or less')
-                        .required('Required'),
-                    lastName: Yup.string()
-                        .max(20, 'Must be 20 characters or less')
-                        .required('Required'),
-                    email: Yup.string()
-                        .email('Invalid email address')
-                        .required('Required'),
-                })}
-                onSubmit={(values, { setSubmitting }) => {
-                    setTimeout(() => {
-                        console.log(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                    }, 400);
-                }}
-            >
-                <Form>
-                    <label htmlFor="firstName">First Name</label>
-                    <Field name="firstName" type="text" />
-                    <ErrorMessage name="firstName" />
-
-                    <label htmlFor="lastName">Last Name</label>
-                    <Field name="lastName" type="text" />
-                    <ErrorMessage name="lastName" />
-
-                    <label htmlFor="email">Email Address</label>
-                    <Field name="email" type="email" />
-                    <ErrorMessage name="email" />
-
-                    <button type="submit">Submit</button>
-                </Form>
-            </Formik>
-        </div>
-    );
+// Define a simple validation function
+const validate = values => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = 'Name is required';
+  }
+  if (!values.email) {
+    errors.email = 'Email is required';
+  } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+    errors.email = 'Enter a valid email';
+  }
+  return errors;
 };
+
+function EnrollmentForm() {
+  // Initialize Formik with initial values, validation function, and submit handler
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+    },
+    validate,
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <div>
+        <label htmlFor="name">Name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          onChange={formik.handleChange}
+          value={formik.values.name}
+          onBlur={formik.handleBlur}
+        />
+        {formik.touched.name && formik.errors.name ? (
+          <div>{formik.errors.name}</div>
+        ) : null}
+      </div>
+
+      <div>
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          onChange={formik.handleChange}
+          value={formik.values.email}
+          onBlur={formik.handleBlur}
+        />
+        {formik.touched.email && formik.errors.email ? (
+          <div>{formik.errors.email}</div>
+        ) : null}
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
 
 export default EnrollmentForm;
