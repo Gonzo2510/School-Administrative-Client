@@ -1,65 +1,49 @@
 import React from 'react';
-import { useFormik } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 
-// Define the validation schema using Yup
-const validationSchema = yup.object({
-  name: yup
-    .string()
-    .required('Name is required'),
-  email: yup
-    .string()
-    .email('Enter a valid email')
-    .required('Email is required'),
-});
 
-function EnrollmentForm() {
-  // Initialize Formik with initial values, validation schema, and submit handler
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      email: '',
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
+const EnrollmentForm = () => {
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <div>
-        <label htmlFor="name">Name</label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          onChange={formik.handleChange}
-          value={formik.values.name}
-          onBlur={formik.handleBlur}
-        />
-        {formik.touched.name && formik.errors.name ? (
-          <div>{formik.errors.name}</div>
-        ) : null}
-      </div>
+    <div>
+      <h1>Enrollment Form</h1>
+      <Formik
+        initialValues={{ student: '', course: '', grade: '' }}
+        validationSchema={yup.object({
+          student: yup.number().required('Required').integer().positive().min(0),
+          course: yup.number().required('Required').integer().positive().min(0),
+          grade: yup.number().required('Required').integer().positive().min(0).max(100)
+        })}
+        onSubmit={(values) => {
+          alert(JSON.stringify(values, null, 2));
+        }}
+      >
+        {({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="student">Student ID</label>
+              <Field name="student" type="number" />
+              <ErrorMessage name="student" component="div" />
+            </div>
 
-      <div>
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          onChange={formik.handleChange}
-          value={formik.values.email}
-          onBlur={formik.handleBlur}
-        />
-        {formik.touched.email && formik.errors.email ? (
-          <div>{formik.errors.email}</div>
-        ) : null}
-      </div>
+            <div>
+              <label htmlFor="course">Course ID</label>
+              <Field name="course" type="number" />
+              <ErrorMessage name="course" component="div" />
+            </div>
 
-      <button type="submit">Submit</button>
-    </form>
+            <div>
+              <label htmlFor="grade">Grade</label>
+              <Field name="grade" type="number" />
+              <ErrorMessage name="grade" component="div" />
+            </div>
+
+            <button type="submit">Submit</button>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 }
 
