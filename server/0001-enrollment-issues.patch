@@ -1,0 +1,91 @@
+From abfb68ebee12e0ccba5fab84cbd91dbe975c5b0c Mon Sep 17 00:00:00 2001
+From: Jacob Gonzales <Jagonz@live.com>
+Date: Thu, 23 May 2024 12:29:33 -0500
+Subject: [PATCH] enrollment issues
+
+---
+ client/src/components/EnrollmentForm.js | 33 ++++++++++---------------
+ package.json                            |  6 ++---
+ 2 files changed, 16 insertions(+), 23 deletions(-)
+
+diff --git a/client/src/components/EnrollmentForm.js b/client/src/components/EnrollmentForm.js
+index 950008f..1cf35f1 100644
+--- a/client/src/components/EnrollmentForm.js
++++ b/client/src/components/EnrollmentForm.js
+@@ -1,24 +1,17 @@
+ import React from 'react';
+ import { Formik, Form, Field, ErrorMessage } from 'formik';
+ import * as Yup from 'yup';
+-import './EnrollmentForm.css';
+ 
+ const EnrollmentForm = () => {
+     return (
+         <div>
+             <h1>Enrollment Form</h1>
+             <Formik
+-                initialValues={{ firstName: '', lastName: '', email: '' }}
++                initialValues={{ student: '', course: '', grade: '' }}
+                 validationSchema={Yup.object({
+-                    firstName: Yup.string()
+-                        .max(15, 'Must be 15 characters or less')
+-                        .required('Required'),
+-                    lastName: Yup.string()
+-                        .max(20, 'Must be 20 characters or less')
+-                        .required('Required'),
+-                    email: Yup.string()
+-                        .email('Invalid email address')
+-                        .required('Required'),
++                    student: Yup.number().required('Required').integer().positive().min(0).max(),
++                    course: Yup.number().required('Required').integer().positive().min(0).max(),
++                    grade: Yup.number().required('Required').integer().positive().min(0).max()
+                 })}
+                 onSubmit={(values, { setSubmitting }) => {
+                     setTimeout(() => {
+@@ -28,17 +21,17 @@ const EnrollmentForm = () => {
+                 }}
+             >
+                 <Form>
+-                    <label htmlFor="firstName">First Name</label>
+-                    <Field name="firstName" type="text" />
+-                    <ErrorMessage name="firstName" />
++                    <label htmlFor="student">Student ID</label>
++                    <Field name="student" type="number" />
++                    <ErrorMessage name="student" />
+ 
+-                    <label htmlFor="lastName">Last Name</label>
+-                    <Field name="lastName" type="text" />
+-                    <ErrorMessage name="lastName" />
++                    <label htmlFor="course">Course ID</label>
++                    <Field name="course" type="number" />
++                    <ErrorMessage name="course" />
+ 
+-                    <label htmlFor="email">Email Address</label>
+-                    <Field name="email" type="email" />
+-                    <ErrorMessage name="email" />
++                    <label htmlFor="grade">Grade</label>
++                    <Field name="grade" type="number" />
++                    <ErrorMessage name="grade" />
+ 
+                     <button type="submit">Submit</button>
+                 </Form>
+diff --git a/package.json b/package.json
+index b69c43e..9c98285 100644
+--- a/package.json
++++ b/package.json
+@@ -1,10 +1,10 @@
+ {
+   "dependencies": {
++    "formik": "^2.4.6",
+     "react": "^18.3.1",
+     "react-dom": "^18.3.1",
+-    "formik": "^2.4.6",
++    "react-router": "^6.23.1",
+     "react-router-dom": "^6.23.1",
+-    "react-router": "^6.23.1"
++    "yup": "^1.4.0"
+   }
+ }
+-
+-- 
+2.43.0
+
