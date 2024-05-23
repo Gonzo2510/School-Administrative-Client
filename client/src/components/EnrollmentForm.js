@@ -1,29 +1,27 @@
 import React from 'react';
 import { useFormik } from 'formik';
+import * as yup from 'yup';
 
-// Define a simple validation function
-const validate = values => {
-  const errors = {};
-  if (!values.name) {
-    errors.name = 'Name is required';
-  }
-  if (!values.email) {
-    errors.email = 'Email is required';
-  } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-    errors.email = 'Enter a valid email';
-  }
-  return errors;
-};
+// Define the validation schema using Yup
+const validationSchema = yup.object({
+  name: yup
+    .string()
+    .required('Name is required'),
+  email: yup
+    .string()
+    .email('Enter a valid email')
+    .required('Email is required'),
+});
 
 function EnrollmentForm() {
-  // Initialize Formik with initial values, validation function, and submit handler
+  // Initialize Formik with initial values, validation schema, and submit handler
   const formik = useFormik({
     initialValues: {
       name: '',
       email: '',
     },
-    validate,
-    onSubmit: values => {
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
     },
   });
