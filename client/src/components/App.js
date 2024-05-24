@@ -17,23 +17,11 @@ function App() {
         <NavBar />
         <Switch>
             <Route exact path="/" component={Home} />
-            {/* <Route path="/login" component={Login} /> */}
-            <Route path="/courses">
-              <CourseContainer/>
-            </Route>
-            <Route path="/instructors">
-              <InstructorsContainer/>
-            </Route>
-            <Route path="/students">
-              <StudentsContainer/>
-            </Route>
-            <Route path="/register">
-            <Register/>
-            </Route>
-            <Route path="/enrollment">
-              <EnrollmentForm/>
-            </Route>
-            {/* <Route path="/profile" component={UserProfile} /> */}
+            <Route exact path="/courses" component={CourseContainer} />
+            <Route exact path="/instructors" component={InstructorsContainer} />
+            <Route exact path="/students" component={StudentsContainer} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/enrollment" component={EnrollmentForm} />
         </Switch>
     </Router>
   </>);

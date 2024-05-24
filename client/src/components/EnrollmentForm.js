@@ -1,19 +1,17 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as yup from 'yup';
-
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 const EnrollmentForm = () => {
-
   return (
     <div>
       <h1>Enrollment Form</h1>
       <Formik
         initialValues={{ student: '', course: '', grade: '' }}
-        validationSchema={yup.object({
-          student: yup.number().required('Required').integer().positive().min(0),
-          course: yup.number().required('Required').integer().positive().min(0),
-          grade: yup.number().required('Required').integer().positive().min(0).max(100)
+        validationSchema={Yup.object({
+          student: Yup.number().required('Required').integer().positive().min(0),
+          course: Yup.number().required('Required').integer().positive().min(0),
+          grade: Yup.number().required('Required').integer().positive().min(0).max(100)
         })}
         onSubmit={(values) => {
           alert(JSON.stringify(values, null, 2));
@@ -45,6 +43,6 @@ const EnrollmentForm = () => {
       </Formik>
     </div>
   );
-}
+};
 
 export default EnrollmentForm;
