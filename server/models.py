@@ -55,14 +55,14 @@ class Course(db.Model, SerializerMixin):
     name = db.Column(db.String, unique=True, nullable=False)
     description = db.Column(db.String(120), nullable=False)
 
-    enrollments = db.relationship("Enrollment", back_populates='course')
+    enrollments = db.relationship('Enrollment', back_populates='course', overlaps="course,students")
     
     # Foreign key referenceing the Instructor/Department table
     instructor_id = db.Column(db.Integer, db.ForeignKey('instructors.id'))
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
 
     # relationship mapping course to related students
-    students = db.relationship('Student', secondary='enrollments', back_populates='courses')
+    students = db.relationship('Student', secondary='enrollments', back_populates='courses', overlaps="courses,enrollments")
 
     # Relationship to the Instructor table
     instructor = db.relationship("Instructor", back_populates='courses')
