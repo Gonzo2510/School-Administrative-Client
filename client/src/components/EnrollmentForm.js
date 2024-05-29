@@ -6,39 +6,55 @@ import * as yup from 'yup';
 const EnrollmentForm = () => {
 
   const formSchema = yup.object().shape({
-    student: yup.number().positive().required(),
-    course: yup.number().positive().required(),
-    grade: yup.number().required().max(100).min(0)
+    student: yup.number().integer().positive().required(),
+    course: yup.number().integer().positive().required(),
+    grade: yup.number().integer().required().max(100).min(0)
   })
 
   const formik = useFormik({
     initialValues: {
       student: '',
       course: '',
-      grade: ''
+      grade: '',
     },
     validationSchema: formSchema,
-    onsubmit: (values) => {
+    onSubmit: (values) => {
       console.log(values)
     }
   })
 
   return (
     <div>
-      <form onsubmit={formik.handleSubmit}>
-        <label>Student</label>
+      <form onSubmit={formik.handleSubmit}>
+        <label>Student </label>
         <input
-          id="email"
-          value={formik.values.student}
+          id="student"
+          name="student"
           onChange={formik.handleChange}
-          type='number'
+          value={formik.values.student}
           placeholder='Enter the student id'
           />
-        
+        <br/>
+        <label>Course </label>
+        <input
+          id="course"
+          name="course"
+          onChange={formik.handleChange}
+          value={formik.values.course}
+          placeholder='Enter the course id'
+          />
 
-        <button type="submit">
-              Submit
-            </button>
+        <br/>
+        <label>Grade </label>
+        <input
+          id="grade"
+          name="grade"
+          onChange={formik.handleChange}
+          value={formik.values.grade}
+          placeholder='Enter the grade id'
+          />
+        
+        <button type="submit">Submit</button>
       </form>
     </div>
     )

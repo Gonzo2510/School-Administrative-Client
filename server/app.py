@@ -168,8 +168,8 @@ def departments():
 def instructor():
     if request.method == 'GET':
 
-        instructor = Instructor.query.all()
-        instructor_dict = [instructor.to_dict() for instructor in instructor]
+        instructors = Instructor.query.all()
+        instructor_dict = [instructor.to_dict() for instructor in instructors]
 
         response = make_response(
             instructor_dict,
@@ -199,17 +199,30 @@ def instructor():
     return response
 
 
-@app.route('/enrollments', methods=['POST'])
+@app.route('/enrollments', methods=['GET','POST'])
 def create_enrollment():
-    data = request.get_json()
-    new_enrollment = Enrollment(
-        student_id=data['studentId'],
-        course_id=data['courseId'],
-        grade=data['grade']
-    )
-    db.session.add(new_enrollment)
-    db.session.commit()
-    return jsonify(new_enrollment.serialize()), 201
+
+    if request.method == 'GET':
+
+        enrollments = Enrollment.query.all()
+        enrollment_dict = [enrollment.to_dict() for enrollment in enrollments]
+
+        response = make_response(
+            enrollment_dict,
+            200
+        )
+        return response
+
+    elif request.method == 'POST':
+        data = request.get_json()
+        new_enrollment = Enrollment(
+            student_id=data['studentId'],
+            course_id=data['courseId'],
+            grade=data['grade']
+        )
+        db.session.add(new_enrollment)
+        db.session.commit()
+        return jsonify(new_enrollment.serialize()), 201
 
 
 
