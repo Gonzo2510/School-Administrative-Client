@@ -1,91 +1,48 @@
 import React from 'react';
-import { ErrorMessage, Formik, useFormik } from 'formik';
-import * as Yup from 'yup';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+
 
 const EnrollmentForm = () => {
 
-  const { values, handleChange } = useFormik({
+  const formSchema = yup.object().shape({
+    student: yup.number().positive().required(),
+    course: yup.number().positive().required(),
+    grade: yup.number().required().max(100).min(0)
+  })
+
+  const formik = useFormik({
     initialValues: {
       student: '',
       course: '',
       grade: ''
     },
-    onSubmit: values => {
+    validationSchema: formSchema,
+    onsubmit: (values) => {
       console.log(values)
     }
   })
 
   return (
-    <Formik
-      initialValues={{
-        student: '',
-        course: '',
-        grade: ''
-      }}
-      onSubmit={onSubmit}
-    >
-    {({ isSubmitting }) => (
-      <Form>
+    <div>
+      <form onsubmit={formik.handleSubmit}>
         <label>Student</label>
-        <Field
-          value={values.student}
-          onChange={handleChange}
+        <input
           id="email"
+          value={formik.values.student}
+          onChange={formik.handleChange}
           type='number'
           placeholder='Enter the student id'
-        />
+          />
         
-        <ErrorMessage name="student" component="div"  />
 
-        <button type="submit" disabled={isSubmitting}>
+        <button type="submit">
               Submit
             </button>
-      </Form>
-    )}
-    
-    </Formik>
+      </form>
+    </div>
+    )
+}
 
-
-
-    // <div>
-    //   <h1>Enrollment Form</h1>
-    //   <Formik
-    //     initialValues={{ student: '', course: '', grade: '' }}
-    //     validationSchema={Yup.object({
-    //       student: Yup.number().required('Required').integer().positive().min(0),
-    //       course: Yup.number().required('Required').integer().positive().min(0),
-    //       grade: Yup.number().required('Required').integer().positive().min(0).max(100)
-    //     })}
-    //     onSubmit={(values) => {
-    //       alert(JSON.stringify(values, null, 2));
-    //     }}
-    //   >
-    //     {({ handleSubmit }) => (
-    //       <Form onSubmit={handleSubmit}>
-    //         <div>
-    //           <label htmlFor="student">Student ID</label>
-    //           <Field name="student" type="number" />
-    //           <ErrorMessage name="student" component="div" />
-    //         </div>
-
-    //         <div>
-    //           <label htmlFor="course">Course ID</label>
-    //           <Field name="course" type="number" />
-    //           <ErrorMessage name="course" component="div" />
-    //         </div>
-
-    //         <div>
-    //           <label htmlFor="grade">Grade</label>
-    //           <Field name="grade" type="number" />
-    //           <ErrorMessage name="grade" component="div" />
-    //         </div>
-
-    //         <button type="submit">Submit</button>
-    //       </Form>
-    //     )}
-    //   </Formik>
-    // </div>
-  );
-};
 
 export default EnrollmentForm;

@@ -32,4 +32,4 @@ function CourseContainer() {
     )
   }
 
-  export default CourseContainer;
+export default CourseContainer;
