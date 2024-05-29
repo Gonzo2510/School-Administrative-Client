@@ -1,13 +1,27 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useState } from "react";
+import StudentsContainer from "./StudentsContainer";
 
 function Home() {
-    
-    return (
-        <h1>
-            Select an option above to begin
-        </h1>
-    )
-  }
+    const [searchTerm, setSearchTerm] = useState("");
 
-  export default Home;
+    const handleChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    return (
+        <>
+            <h2>Search for a student below</h2>
+            <form>
+                <input
+                    type="text"
+                    placeholder="Student Name"
+                    value={searchTerm}
+                    onChange={handleChange}
+                />
+                <StudentsContainer searchTerm={searchTerm} />
+            </form>
+        </>
+    );
+}
+
+export default Home;
