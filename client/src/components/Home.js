@@ -8,10 +8,14 @@ function Home() {
         setSearchTerm(event.target.value);
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+    }
+
     return (
         <>
             <h2>Search for a student below</h2>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <input
                     type="text"
                     placeholder="Student Name"
