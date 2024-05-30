@@ -9,6 +9,8 @@ function Register() {
   });
 
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  
   
   const formik = useFormik({
     initialValues: {
@@ -32,9 +34,11 @@ function Register() {
       })
       .then((signup) => {
         resetForm();
+        setSuccessMessage(`${signup.name} has been registered!`);
       })
       .catch((error) => {
         console.log('Error submitting form:', error);
+        setSuccessMessage('')
         setErrorMessage(error.message);
       });
     }
@@ -67,6 +71,7 @@ function Register() {
         <p style={{ color: "red" }}>{formik.errors.email}</p>
       </div>
       <button type="submit">Register</button>
+      <p style={{ color: "green" }}>{successMessage}</p>
     </form>
   );
 }
