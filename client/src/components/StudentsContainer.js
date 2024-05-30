@@ -11,7 +11,7 @@ function StudentsContainer({ searchTerm }) {
     }, []);
 
     const handleDelete = (id) => {
-        fetch(`http://127.0.0.1:5555/students/${id}`, {
+        fetch(`/api/students/${id}`, {
             method: "DELETE",
         }).then(() => {
             setStudentsArr(studentsArr.filter((student) => student.id !== id));
