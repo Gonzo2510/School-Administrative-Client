@@ -45,6 +45,7 @@ const EnrollmentForm = () => {
 
   return (
     <div>
+      <h2>Set Student Final Grade</h2>
       <form onSubmit={formik.handleSubmit}>
         <label>Student </label>
         <input
