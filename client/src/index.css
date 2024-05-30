@@ -7,14 +7,22 @@
 
 
 /* card containter */
-.card_item {
-  width: calc(25% - 20px); /* Adjust as needed */
+.course_card_item {
+  width: calc(50% - 20px); /* Adjust as needed */
+  margin: 10px; /* Adjust as needed */
+  list-style: none;
+  box-sizing: border-box;
+  float: left;
+}
+.instructor_card_item {
+  width: calc(70% - 10px); /* Adjust as needed */
   margin: 10px; /* Adjust as needed */
   list-style: none;
   box-sizing: border-box;
   float: left;
 }
 
+/* student cards  */
 .card {
   background-color: #f0f0f0;
   border: 1px solid #ccc;
