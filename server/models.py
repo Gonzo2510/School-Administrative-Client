@@ -7,7 +7,7 @@ from config import db
 
 # Models go here!
 
-class Enrollment(db.Model):
+class Enrollment(db.Model, SerializerMixin):
     __tablename__ = 'enrollments'
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
@@ -16,6 +16,9 @@ class Enrollment(db.Model):
 
     student = db.relationship('Student', back_populates='enrollments')
     course = db.relationship('Course', back_populates='enrollments')
+
+    serialize_rules = ('-courses.students',  )
+
 
 class Student(db.Model, SerializerMixin):
     __tablename__ = 'students'
@@ -28,7 +31,7 @@ class Student(db.Model, SerializerMixin):
     courses = db.relationship('Course', secondary='enrollments', back_populates = "students")
 
     # serialization rules
-    serialize_rules = ('-courses.students', )
+    serialize_rules = ('-student.enrollments', '-courses.students')
 
     # add validation
     @validates('name')

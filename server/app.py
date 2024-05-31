@@ -215,9 +215,14 @@ def create_enrollment():
 
     elif request.method == 'POST':
         data = request.get_json()
+        print("")
+        print("")
+        print(data)
+        print("")
+        print("")
         new_enrollment = Enrollment(
-            student_id=data['studentId'],
-            course_id=data['courseId'],
+            student_id=data['student_id'],
+            course_id=data['course_id'],
             grade=data['grade']
         )
         db.session.add(new_enrollment)
