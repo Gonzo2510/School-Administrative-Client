@@ -17,7 +17,7 @@ class Enrollment(db.Model, SerializerMixin):
     student = db.relationship('Student', back_populates='enrollments')
     course = db.relationship('Course', back_populates='enrollments')
 
-    serialize_rules = ('-courses.students',  )
+    serialize_rules = ('-student.enrollments', '-course.enrollments' )
 
 
 class Student(db.Model, SerializerMixin):
@@ -31,7 +31,7 @@ class Student(db.Model, SerializerMixin):
     courses = db.relationship('Course', secondary='enrollments', back_populates = "students")
 
     # serialization rules
-    serialize_rules = ('-student.enrollments', '-courses.students')
+    serialize_rules = ('-enrollments.student', '-courses.students')
 
     # add validation
     @validates('name')
@@ -73,7 +73,7 @@ class Course(db.Model, SerializerMixin):
     department = db.relationship('Department', back_populates='courses')
 
     # add serialization rules
-    serialize_rules = ('-instructor.course', '-students.courses', '-department.courses', 'instructor.name', 'department.name')
+    serialize_rules = ('-enrollments.course', '-instructor.course', '-students.courses', '-department.courses', )
 
     # add validation
     @validates('name')
