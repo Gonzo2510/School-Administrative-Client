@@ -2,7 +2,6 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
 
-
 from config import db
 
 # Models go here!
@@ -12,12 +11,12 @@ class Enrollment(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
     course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
-    grade = db.Column(db.String(2)) #user submittable attribute
+    grade = db.Column(db.String(2))  # user submittable attribute
 
     student = db.relationship('Student', back_populates='enrollments')
     course = db.relationship('Course', back_populates='enrollments')
 
-    serialize_rules = ('-student.enrollments', '-course.enrollments' )
+    serialize_rules = ('-student.enrollments', '-course.enrollments')
 
 
 class Student(db.Model, SerializerMixin):
@@ -27,31 +26,29 @@ class Student(db.Model, SerializerMixin):
     email = db.Column(db.String, unique=True, nullable=False)
 
     # relationship mapping student to related courses
-    enrollments = db.relationship('Enrollment', back_populates = 'student')
-    courses = db.relationship('Course', secondary='enrollments', back_populates = "students")
+    enrollments = db.relationship('Enrollment', back_populates='student')
+    courses = db.relationship('Course', secondary='enrollments', back_populates='students')
 
     # serialization rules
     serialize_rules = ('-enrollments.student', '-courses.students')
 
     # add validation
     @validates('name')
-    def validates_name(self, key, name):
-        if name:
-            return name
-        else:
+    def validate_name(self, key, name):
+        if not name:
             raise ValueError('Student name is required')
-    
+        return name
+
     @validates('email')
-    def validates_email(self, key, email):
-        if email:
-            return email
-        else:
+    def validate_email(self, key, email):
+        if not email:
             raise ValueError('Student email is required')
+        return email
 
     def __repr__(self):
-        return '<Student %r>' % self. name 
+        return f'<Student {self.name}>'
 
-    
+
 class Course(db.Model, SerializerMixin):
     __tablename__ = 'courses'
     id = db.Column(db.Integer, primary_key=True)
@@ -60,7 +57,7 @@ class Course(db.Model, SerializerMixin):
 
     enrollments = db.relationship('Enrollment', back_populates='course', overlaps="course,students")
     
-    # Foreign key referenceing the Instructor/Department table
+    # Foreign key referencing the Instructor/Department table
     instructor_id = db.Column(db.Integer, db.ForeignKey('instructors.id'))
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
 
@@ -73,18 +70,17 @@ class Course(db.Model, SerializerMixin):
     department = db.relationship('Department', back_populates='courses')
 
     # add serialization rules
-    serialize_rules = ('-enrollments.course', '-instructor.course', '-students.courses', '-department.courses', )
+    serialize_rules = ('-enrollments.course', '-students.courses', '-instructor.courses', '-department.courses')
 
     # add validation
     @validates('name')
-    def validates_name(self, key, name):
-        if name:
-            return name
-        else:
+    def validate_name(self, key, name):
+        if not name:
             raise ValueError('Course name is required')
+        return name
 
     def __repr__(self):
-        return '<Course %r>' % self.name 
+        return f'<Course {self.name}>'
 
 
 class Department(db.Model, SerializerMixin):
@@ -94,10 +90,12 @@ class Department(db.Model, SerializerMixin):
 
     # Add relationships
     courses = db.relationship('Course', back_populates='department')
-    # course
+
+    serialize_rules = ('-courses.department',)
 
     def __repr__(self):
         return f'<Department {self.id}, {self.name}>'
+
 
 class Instructor(db.Model, SerializerMixin):
     __tablename__ = 'instructors'
@@ -112,7 +110,3 @@ class Instructor(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f'<Instructor {self.id}, {self.name}>'
-
-
-
-
