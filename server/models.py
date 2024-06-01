@@ -19,6 +19,7 @@ class Enrollment(db.Model, SerializerMixin):
     serialize_rules = ('-student.enrollments', '-course.enrollments')
 
 
+
 class Student(db.Model, SerializerMixin):
     __tablename__ = 'students'
     id = db.Column(db.Integer, primary_key=True)
@@ -30,7 +31,7 @@ class Student(db.Model, SerializerMixin):
     courses = db.relationship('Course', secondary='enrollments', back_populates='students')
 
     # serialization rules
-    serialize_rules = ('-enrollments.student', '-courses.students')
+    serialize_rules = ('-enrollments.student', '-courses.students', '-enrollments.course', '-enrollments.student')
 
     # add validation
     @validates('name')
@@ -49,17 +50,19 @@ class Student(db.Model, SerializerMixin):
         return f'<Student {self.name}>'
 
 
+
 class Course(db.Model, SerializerMixin):
     __tablename__ = 'courses'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
     description = db.Column(db.String(120), nullable=False)
 
-    enrollments = db.relationship('Enrollment', back_populates='course', overlaps="course,students")
-    
     # Foreign key referencing the Instructor/Department table
     instructor_id = db.Column(db.Integer, db.ForeignKey('instructors.id'))
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
+
+    # relationship mapping course to related enrollments
+    enrollments = db.relationship('Enrollment', back_populates='course', overlaps="course,students")
 
     # relationship mapping course to related students
     students = db.relationship('Student', secondary='enrollments', back_populates='courses', overlaps="courses,enrollments")
@@ -70,7 +73,7 @@ class Course(db.Model, SerializerMixin):
     department = db.relationship('Department', back_populates='courses')
 
     # add serialization rules
-    serialize_rules = ('-enrollments.course', '-students.courses', '-instructor.courses', '-department.courses')
+    serialize_rules = ('-enrollments.course', '-students.courses', '-instructor.courses', '-department.courses', '-student.enrollments', '-student.courses')
 
     # add validation
     @validates('name')
@@ -81,6 +84,7 @@ class Course(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f'<Course {self.name}>'
+
 
 
 class Department(db.Model, SerializerMixin):
@@ -95,6 +99,7 @@ class Department(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f'<Department {self.id}, {self.name}>'
+
 
 
 class Instructor(db.Model, SerializerMixin):
