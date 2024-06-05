@@ -80,6 +80,18 @@ def create_instructors():
     return instructors
 
 
+def create_enrollments(students, courses):
+    enrollments = []
+    for i in range(30):
+        e = Enrollment(
+            student_id = rc(students).id,
+            course_id = rc(courses).id,
+            grade = fake.random_int(min=0, max=100)
+        )
+        enrollments.append(e)
+    return enrollments
+
+
 
 if __name__ == '__main__':
     with app.app_context():
@@ -114,6 +126,12 @@ if __name__ == '__main__':
         courses = create_courses(departments, instructors)
         db.session.add_all(courses)
         db.session.commit()
+
+        print("Seeding enrollments...")
+        enrollments = create_enrollments(students, courses)
+        db.session.add_all(enrollments)
+        db.session.commit()
+
 
         print("Done seeding!")
 
