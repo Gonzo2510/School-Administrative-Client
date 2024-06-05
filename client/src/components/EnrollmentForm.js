@@ -6,6 +6,7 @@ const EnrollmentForm = () => {
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
+  const [successSessage, setSuccessSessage] = useState('');
 
   // Fetch students and courses
   useEffect(() => {
@@ -48,7 +49,7 @@ const EnrollmentForm = () => {
           grade: formData.grade,
         };
 
-        console.log(postData);
+        // console.log(postData);
 
         const response = await fetch("http://127.0.0.1:5555/enrollments", {
           method: 'POST',
@@ -66,8 +67,10 @@ const EnrollmentForm = () => {
         console.log(data);
         resetForm();
         setErrorMessage('');
+        setSuccessSessage(`Submitted ${postData.grade} for ${selectedStudent.name} in ${selectedCourse.name}.`)
       } catch (error) {
         console.error('Error submitting form:', error);
+        setSuccessSessage('')
         setErrorMessage('Error, Student/course combination does not exist.');
       }
     }
@@ -121,6 +124,7 @@ const EnrollmentForm = () => {
         
         <button type="submit">Submit</button>
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+        {successSessage && <p style={{ color: 'green' }}>{successSessage}</p>}
       </form>
     </div>
   );
