@@ -12,12 +12,34 @@ class Enrollment(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
     course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
-    grade = db.Column(db.String(2))  # user submittable attribute
+    grade = db.Column(db.Float)  # user submittable attribute
 
     student = db.relationship('Student', back_populates='enrollments')
     course = db.relationship('Course', back_populates='enrollments')
 
-    serialize_rules = ('-student.enrollments', '-course.enrollments')
+    def serialize(self):
+        return{
+            'id': self.id,
+            'student_id': self.student_id,
+            'course_id': self.course_id,
+            'grade': self.grade,
+        }
+
+    serialize_rules = (
+        '-student_id',
+        '-course_id', 
+        '-student.email', 
+        '-student.enrollments', 
+        '-student.courses', 
+        '-course.department', 
+        '-course.instructor', 
+        '-course.instructor_id',
+        '-course.department_id',
+        '-course.description',
+        '-course.enrollments',
+        '-course.students',
+  
+        )
 
 
 class Student(db.Model, SerializerMixin):
@@ -72,7 +94,12 @@ class Course(db.Model, SerializerMixin):
     department = db.relationship('Department', back_populates='courses')
 
     # add serialization rules
-    serialize_rules = ('-enrollments.course', '-students.courses', '-instructor.courses', '-department.courses')
+    serialize_rules = (
+        '-enrollments.course', 
+        '-students.courses', 
+        '-instructor.courses', 
+        '-department.courses'
+                       )
 
     # add validation
     @validates('name')
