@@ -57,6 +57,12 @@ def student_by_id(id):
     
     if student:
         if request.method == 'DELETE':
+            # delete enrollments for student
+            enrollments = Enrollment.query.filter_by(student_id=id).all()
+            for enrollment in enrollments:
+                db.session.delete(enrollment)
+
+            # delete student
             db.session.delete(student)
             db.session.commit()
             response = make_response(
