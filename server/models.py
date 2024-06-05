@@ -98,8 +98,13 @@ class Course(db.Model, SerializerMixin):
         '-enrollments.course', 
         '-students.courses', 
         '-instructor.courses', 
-        '-department.courses'
-                       )
+        '-department.courses',
+        '-department_id',
+        '-enrollments',
+        '-instructor_id',
+        '-students.enrollments',
+        '-students.email',
+    )
 
     # add validation
     @validates('name')
