@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useFormik } from 'formik';
+import { Formik, FormikConsumer, useFormik } from 'formik';
 import * as yup from 'yup';
+import UpdateStudent from './UpdateStudent';
 
 function Register() {
   const formSchema = yup.object().shape({
@@ -45,6 +46,7 @@ function Register() {
   });
 
   return (
+    <>
     <form onSubmit={formik.handleSubmit}>
       <h2>Create New Student</h2>
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
@@ -56,7 +58,7 @@ function Register() {
           name="name"
           value={formik.values.name}
           onChange={formik.handleChange}
-        />
+          />
         <p style={{ color: "red" }}>{formik.errors.name}</p>
       </div>
       <div>
@@ -67,12 +69,15 @@ function Register() {
           name="email"
           value={formik.values.email}
           onChange={formik.handleChange}
-        />
+          />
         <p style={{ color: "red" }}>{formik.errors.email}</p>
       </div>
       <button type="submit">Register</button>
       <p style={{ color: "green" }}>{successMessage}</p>
     </form>
+    <br/>
+    <UpdateStudent/>
+    </>
   );
 }
 
