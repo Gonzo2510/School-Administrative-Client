@@ -8,7 +8,10 @@ function InstructorsContainer() {
     useEffect(()=>{
       fetch("http://127.0.0.1:5555/instructors")
       .then((response) => response.json())
-      .then((data) => setInstructorsArr(data))
+      .then((data) => {
+        const sortedData = data.sort((a, b) => a.name.localeCompare(b.name))
+        setInstructorsArr(sortedData)
+      })
     }, [])
 
     const renderedInstructorsArr = instructorsArr.map((instructorObj) =>
