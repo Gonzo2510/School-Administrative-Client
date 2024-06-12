@@ -12,7 +12,7 @@ import EnrollmentForm from "./EnrollmentForm";
 function App() {
 
   return(<> 
-    <h1>Administration School Client</h1>
+    <h1>Adminstrative School Client</h1>
     <Router>
         <NavBar />
         <Switch>
