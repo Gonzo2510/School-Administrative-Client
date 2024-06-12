@@ -7,7 +7,12 @@ function Instructor({ name, courses, key }) {
       <ul className="instructor_card_item" data-id={key}>
         <div className="card">
           <div className="card_title">{name}</div>
-          <p className="card_courses">Courses: {courses.map((c)=> <li>{c.name}</li>)}</p>
+          <div className="card_courses">
+            <p>Courses:</p>
+            <ul>
+            {courses.map((c)=> <li>{c.name}</li>)}
+            </ul>
+          </div>
         </div>
       </ul>
     )
