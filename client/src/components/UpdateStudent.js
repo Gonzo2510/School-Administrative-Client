@@ -67,7 +67,7 @@ function UpdateStudent() {
     }
 
     return (
-        <div>
+        <div id='update_student'>
             <h2>Update Existing Student</h2>
             <form onSubmit={formik.handleSubmit}>
                 <div>
