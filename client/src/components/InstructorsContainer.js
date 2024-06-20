@@ -1,22 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Instructor from "./Instructor";
+import { GlobalContext } from "./context";
 
 
 function InstructorsContainer() {
-    const [instructorsArr, setInstructorsArr] = useState([])
+  const { instructors } = useContext(GlobalContext)
 
-    useEffect(()=>{
-      fetch("http://127.0.0.1:5555/instructors")
-      .then((response) => response.json())
-      .then((data) => {
-        const sortedData = data.sort((a, b) => a.name.localeCompare(b.name))
-        setInstructorsArr(sortedData)
-      })
-    }, [])
-
-    const renderedInstructorsArr = instructorsArr.map((instructorObj) =>
+    const renderedInstructorsArr = instructors.map((instructorObj) =>
     <Instructor
         key = {instructorObj.id}
+        id = {instructorObj.id}
         name = {instructorObj.name}
         courses = {instructorObj.courses}
     />

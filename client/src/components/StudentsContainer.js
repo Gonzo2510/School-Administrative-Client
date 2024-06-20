@@ -1,24 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import Student from "./Student";
+import { GlobalContext } from "./context";
+
 
 function StudentsContainer({ searchTerm }) {
-    const [studentsArr, setStudentsArr] = useState([]);
+    const { students, handleDeleteStudent } = useContext(GlobalContext);
 
-    useEffect(() => {
-        fetch("http://127.0.0.1:5555/students")
-            .then((response) => response.json())
-            .then((data) => setStudentsArr(data));
-    }, []);
-
-    const handleDelete = (id) => {
-        fetch(`http://127.0.0.1:5555/students/${id}`, {
-            method: "DELETE",
-        }).then(() => {
-            setStudentsArr(studentsArr.filter((student) => student.id !== id));
-        });
-    };
-
-    const filteredStudentsArr = studentsArr.filter((student) =>
+    const filteredStudentsArr = students.filter((student) =>
         searchTerm === "" || (student.name && student.name.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
@@ -28,10 +16,10 @@ function StudentsContainer({ searchTerm }) {
             id={studentObj.id}
             name={studentObj.name}
             email={studentObj.email}
-            onDelete={handleDelete}
+            onDelete={handleDeleteStudent}
         />
     ));
-
+    
     return <>{renderedStudentsArr}</>;
 }
 

@@ -1,17 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Course from "./Course";
+import { GlobalContext } from "./context";
 
 
 function CourseContainer() {
-  const [coursesArr, setCoursesArr] = useState([])
+  const { courses } = useContext(GlobalContext);
 
-  useEffect(()=>{
-    fetch("http://127.0.0.1:5555/courses")
-    .then((response) => response.json())
-    .then((data) => setCoursesArr(data))
-  }, [])
-
-    const renderedCoursesArr = coursesArr.map((courseObj) => (
+  const renderedCoursesArr = courses.map((courseObj) => (
       <Course
           key = {courseObj.id}
           description = {courseObj.description}
@@ -31,5 +26,5 @@ function CourseContainer() {
     </>
     )
   }
-
-export default CourseContainer;
+  
+  export default CourseContainer;
