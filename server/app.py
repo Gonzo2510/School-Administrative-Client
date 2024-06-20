@@ -136,6 +136,23 @@ def courses():
 
     return response
 
+
+@app.route('/courses/<int:id>', methods= ["DELETE"])
+def delete_course(id):
+    if request.method == "DELETE":
+        course = Course.query.filter(Course.id == id).first()
+
+        db.session.delete(course)
+        db.session.commit()
+
+        response = make_response(
+            {},
+            204
+        )
+
+        return response
+
+
 @app.route('/departments', methods=['GET', 'POST'])
 def departments():
     if request.method == 'GET':
