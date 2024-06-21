@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Instructor from "./Instructor";
-import { GlobalContext } from "./context";
+import { GlobalContext } from "../context";
 
 
 function InstructorsContainer() {

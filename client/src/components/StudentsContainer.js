@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Student from "./Student";
-import { GlobalContext } from "./context";
+import { GlobalContext } from "../context";
 
 
 function StudentsContainer({ searchTerm }) {

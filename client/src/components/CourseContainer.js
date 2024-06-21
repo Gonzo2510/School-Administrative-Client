@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import Course from "./Course";
-import { GlobalContext } from "./context";
+import { GlobalContext } from "../context";
 
 
 function CourseContainer() {
