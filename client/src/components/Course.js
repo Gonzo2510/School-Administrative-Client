@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 
 function Course({ description, id, instructorName, departmentName, name, students }) {

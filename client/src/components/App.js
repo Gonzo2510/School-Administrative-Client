@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import CourseContainer from "./CourseContainer";
 import InstructorsContainer from "./InstructorsContainer"
 import NavBar from "./NavBar";
 import Home from "./Home";
-import StudentsContainer from "./StudentsContainer";
 import Register from "./Register";
 import EnrollmentForm from "./EnrollmentForm";
 
