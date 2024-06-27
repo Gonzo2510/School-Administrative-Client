@@ -33,7 +33,6 @@ function UpdateStudent() {
     },
     validationSchema: formSchema,
     onSubmit: (formData, { resetForm }) => {
-      console.log('Form is being submitted');
       fetch(`http://127.0.0.1:5555/students/${selectedStudent.id}`, {
         method: 'PATCH',
         headers: {
@@ -42,15 +41,14 @@ function UpdateStudent() {
         body: JSON.stringify(formData),
       })
         .then((r) => {
-          console.log("Response received");
           if (!r.ok) {
             throw new Error('Network response was not ok');
           }
           return r.json();
         })
         .then((update) => {
-          console.log('Update received', update);
           resetForm();
+          setSelectedStudent(null);
           setSuccessMessage(`${update.name} has been updated!`);
           setErrorMessage('');
           setStudents(students.map(student => student.id === update.id ? update : student));
@@ -97,7 +95,7 @@ function UpdateStudent() {
           <Select
             labelId="student-label"
             id="student"
-            name="student"
+            label="student"
             value={selectedStudent ? selectedStudent.id : ''}
             onChange={handleStudentChange}
           >

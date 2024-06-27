@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { TextField, Button, Typography, Snackbar } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import UpdateStudent from './UpdateStudent';
+import { GlobalContext } from '../context';
+
 
 function Register() {
   const formSchema = yup.object().shape({
@@ -14,6 +16,8 @@ function Register() {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const { students, setStudents } = useContext(GlobalContext);
+
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -45,6 +49,7 @@ function Register() {
         .then((signup) => {
           resetForm();
           setSuccessMessage(`${signup.name} has been registered!`);
+          setStudents([...students, signup])
           setOpenSnackbar(true);
         })
         .catch((error) => {

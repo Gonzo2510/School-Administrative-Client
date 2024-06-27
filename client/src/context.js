@@ -43,7 +43,7 @@ const GlobalProvider = ({ children }) => {
 
 
   return (
-    <GlobalContext.Provider value={{ students, courses, instructors, departments, handleDeleteStudent }}>
+    <GlobalContext.Provider value={{ students, courses, instructors, departments, handleDeleteStudent, setStudents }}>
       {children}
     </GlobalContext.Provider>
   );
