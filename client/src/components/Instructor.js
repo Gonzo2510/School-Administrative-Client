@@ -1,21 +1,26 @@
 import React from "react";
-
+import { Card, CardContent, Typography, List, ListItem, ListItemText } from "@mui/material";
 
 function Instructor({ name, courses, id }) {
-
-    return (
-      <ul className="instructor_card_item" data-id={id}>
-        <div className="card">
-          <div className="card_title">{name}</div>
-          <div className="card_courses">
-            <p>Courses:</p>
-            <ul>
-            {courses.map((c) => <li key={c.id}>{c.name}</li>)}
-            </ul>
-          </div>
+  return (
+    <Card className="instructor_card_item" data-id={id}>
+      <CardContent>
+        <Typography variant="h5" gutterBottom>
+          {name}
+        </Typography>
+        <div className="card_courses">
+          <Typography variant="subtitle1">Courses:</Typography>
+          <List>
+            {courses.map((c) => (
+              <ListItem key={c.id}>
+                <ListItemText primary={c.name} />
+              </ListItem>
+            ))}
+          </List>
         </div>
-      </ul>
-    )
-  }
+      </CardContent>
+    </Card>
+  );
+}
 
-  export default Instructor;
+export default Instructor;

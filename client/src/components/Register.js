@@ -1,18 +1,27 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { TextField, Button, Typography, Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 import UpdateStudent from './UpdateStudent';
 
 function Register() {
   const formSchema = yup.object().shape({
-    name: yup.string().required("Name is required").max(25, 'Name must be at most 25 characters').min(3, 'Name must be at least 3 characters'),
-    email: yup.string().email('Invalid email format').required("Email is required")
+    name: yup.string().required('Name is required').max(25, 'Name must be at most 25 characters').min(3, 'Name must be at least 3 characters'),
+    email: yup.string().email('Invalid email format').required('Email is required')
   });
 
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  
-  
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -20,63 +29,83 @@ function Register() {
     },
     validationSchema: formSchema,
     onSubmit: (formData, { resetForm }) => {
-      fetch("http://127.0.0.1:5555/students", {
-        method: "POST",
+      fetch('http://127.0.0.1:5555/students', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       })
-      .then((r) => {
-        if (!r.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return r.json();
-      })
-      .then((signup) => {
-        resetForm();
-        setSuccessMessage(`${signup.name} has been registered!`);
-      })
-      .catch((error) => {
-        console.log('Error submitting form:', error);
-        setSuccessMessage('')
-        setErrorMessage(error.message);
-      });
+        .then((r) => {
+          if (!r.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return r.json();
+        })
+        .then((signup) => {
+          resetForm();
+          setSuccessMessage(`${signup.name} has been registered!`);
+          setOpenSnackbar(true);
+        })
+        .catch((error) => {
+          console.log('Error submitting form:', error);
+          setSuccessMessage('');
+          setErrorMessage(error.message);
+        });
     }
   });
 
   return (
     <>
-    <form onSubmit={formik.handleSubmit}>
-      <h2>Create New Student</h2>
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-      <div>
-        <label>Name </label>
-        <input
-          type="text"
+      <form onSubmit={formik.handleSubmit}>
+        <Typography variant="h5" gutterBottom>
+          Create New Student
+        </Typography>
+        {errorMessage && (
+          <Typography variant="body2" color="error" gutterBottom>
+            {errorMessage}
+          </Typography>
+        )}
+        <TextField
           id="name"
           name="name"
+          label="Name"
+          variant="outlined"
+          fullWidth
           value={formik.values.name}
           onChange={formik.handleChange}
-          />
-        <p style={{ color: "red" }}>{formik.errors.name}</p>
-      </div>
-      <div>
-        <label>Email </label>
-        <input
-          type="email"
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
+          margin="normal"
+        />
+        <TextField
           id="email"
           name="email"
+          label="Email"
+          variant="outlined"
+          fullWidth
           value={formik.values.email}
           onChange={formik.handleChange}
-          />
-        <p style={{ color: "red" }}>{formik.errors.email}</p>
-      </div>
-      <button type="submit">Register</button>
-      <p style={{ color: "green" }}>{successMessage}</p>
-    </form>
-    <br/>
-    <UpdateStudent/>
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+          margin="normal"
+        />
+        <Button type="submit" variant="contained" color="primary">
+          Register
+        </Button>
+      </form>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <MuiAlert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
+          {successMessage}
+        </MuiAlert>
+      </Snackbar>
+      <br />
+      <UpdateStudent />
     </>
   );
 }

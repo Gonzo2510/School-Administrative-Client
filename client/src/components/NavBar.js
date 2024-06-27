@@ -1,20 +1,32 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { AppBar, Toolbar, Typography, Button, IconButton } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import { Link as RouterLink } from 'react-router-dom';
 
+const NavBar = ({ isDarkMode, toggleTheme }) => {
 
-function NavBar() {
+  return (
+    <AppBar position="static" color={isDarkMode ? 'default' : 'primary'}>
+      <Toolbar>
+        <IconButton edge="start" color="inherit" aria-label="menu">
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" style={{ flexGrow: 1 }}>
+          School Administration
+        </Typography>
+        <Button color="inherit" component={RouterLink} to="/">Students</Button>
+        <Button color="inherit" component={RouterLink} to="/courses">Courses</Button>
+        <Button color="inherit" component={RouterLink} to="/instructors">Instructors</Button>
+        <Button color="inherit" component={RouterLink} to="/register">Register</Button>
+        <Button color="inherit" component={RouterLink} to="/enrollment">Enrollment</Button>
+        <IconButton color="inherit" onClick={toggleTheme}>
+          {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+        </IconButton>
+      </Toolbar>
+    </AppBar>
+  );
+};
 
-    return (
-        <nav>
-          <ul>
-            <li><Link to="/">Students</Link></li>
-            <li><Link to="/courses">Courses</Link></li>
-            <li><Link to="/instructors">Instructors</Link></li>
-            <li><Link to="/register">Register</Link></li>
-            <li><Link to="/enrollment">Enrollment</Link></li>
-          </ul>
-        </nav>
-    );
-  }
-
-  export default NavBar;
+export default NavBar;

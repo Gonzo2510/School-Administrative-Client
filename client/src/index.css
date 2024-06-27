@@ -1,81 +1,10 @@
-:root {
-  --bg: #282c34;
-  --header: #fff;
-  --link: #61dafb;
-  --text: hsla(0, 0%, 100%, 0.88);
-}
-
-
-/* card containter */
-.course_card_item {
-  width: calc(50% - 20px); /* Adjust as needed */
-  margin: 10px; /* Adjust as needed */
-  list-style: none;
-  box-sizing: border-box;
-  float: left;
-}
+/* instructor cards */
 .instructor_card_item {
-  width: calc(70% - 10px); /* Adjust as needed */
-  margin: 10px; /* Adjust as needed */
-  list-style: none;
-  box-sizing: border-box;
-  float: left;
+  width: calc(70% - 10px);
 }
 
 /* student cards  */
 .card {
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.card_title {
-  font-weight: bold;
-}
-
-.card_description {
-  margin-top: 10px;
-}
-
-.card_instructor {
-  margin-top: 10px;
-  font-style: italic;
-}
-
-.card_department {
-  margin-top: 10px;
-}
-
-.card_students {
-  margin-top: 10px;
-  color: #888;
-  font-size: 0.9em;
-}
-
-
-
-
-/* Navbar */
-nav ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-nav li {
-  float: left;
-}
-
-nav li a {
-  display: block;
-  padding: 14px 16px;
-  text-decoration: none;
-  color: black;
-}
-
-nav li a:hover {
-  background-color: #ddd;
+  border: 1px solid #83a4ff;
+  border-radius: 10px;
 }
