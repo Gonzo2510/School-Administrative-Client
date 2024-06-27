@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 
@@ -11,8 +11,7 @@ function Student({id, name, email, onDelete }) {
         <div className="card">
           <div className="card_title">{name}</div>
           <p className="card_email">Email: {email}</p>
-          <Button onClick={() => onDelete(id)} variant="contained">Delete</Button>
-          {/* <button onClick={() => onDelete(id)}>Delete</button> */}
+          <Button onClick={() => onDelete(id)} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
         </div>
       </ul>
     )

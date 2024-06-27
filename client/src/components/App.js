@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { AppBar, Toolbar, Typography, Container, CssBaseline } from "@mui/material";
 import CourseContainer from "./CourseContainer";
 import InstructorsContainer from "./InstructorsContainer"
 import NavBar from "./NavBar";
 import Home from "./Home";
 import Register from "./Register";
 import EnrollmentForm from "./EnrollmentForm";
+import Button from '@mui/material/Button';
 
 
 function App() {
