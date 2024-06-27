@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { AppBar, Toolbar, Typography, Container, CssBaseline } from "@mui/material";
 import CourseContainer from "./CourseContainer";
 import InstructorsContainer from "./InstructorsContainer"
 import NavBar from "./NavBar";
