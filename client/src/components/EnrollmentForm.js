@@ -1,37 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import {
-  TextField,
-  Button,
-  Typography,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Snackbar,
-} from '@mui/material';
+import { GlobalContext } from '../context';
+import {TextField, Button, Typography, Select, MenuItem, FormControl, InputLabel, Snackbar } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 
 const EnrollmentForm = () => {
-  const [students, setStudents] = useState([]);
-  const [courses, setCourses] = useState([]);
+  const { students, setStudents, courses, setCourses } = useContext(GlobalContext)
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
-
-  // Fetch students and courses
-  useEffect(() => {
-    fetch('http://127.0.0.1:5555/students')
-      .then((response) => response.json())
-      .then((data) => setStudents(data))
-      .catch((error) => console.error('Error fetching students:', error));
-
-    fetch('http://127.0.0.1:5555/courses')
-      .then((response) => response.json())
-      .then((data) => setCourses(data))
-      .catch((error) => console.error('Error fetching courses:', error));
-  }, []);
 
   const formSchema = yup.object().shape({
     student: yup.string().required('Student is required'),
@@ -104,7 +82,7 @@ const EnrollmentForm = () => {
           <Select
             labelId="student-label"
             id="student"
-            name="student"
+            label="student"
             value={formik.values.student}
             onChange={formik.handleChange}
             error={formik.touched.student && Boolean(formik.errors.student)}
@@ -127,7 +105,7 @@ const EnrollmentForm = () => {
           <Select
             labelId="course-label"
             id="course"
-            name="course"
+            label="course"
             value={formik.values.course}
             onChange={formik.handleChange}
             error={formik.touched.course && Boolean(formik.errors.course)}
