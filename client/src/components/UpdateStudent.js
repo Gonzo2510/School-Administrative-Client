@@ -15,10 +15,8 @@ import MuiAlert from '@mui/material/Alert';
 import { GlobalContext } from '../context';
 
 function UpdateStudent() {
-  const { students, setStudents } = useContext(GlobalContext);
+  const { students, setStudents, errorMessage, setErrorMessage, successMessage, setSuccessMessage } = useContext(GlobalContext);
   const [selectedStudent, setSelectedStudent] = useState(null);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const formSchema = yup.object().shape({

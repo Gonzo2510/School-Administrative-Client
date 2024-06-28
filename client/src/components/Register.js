@@ -13,10 +13,8 @@ function Register() {
     email: yup.string().email('Invalid email format').required('Email is required')
   });
 
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const { students, setStudents, errorMessage, setErrorMessage, successMessage, setSuccessMessage } = useContext(GlobalContext);
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const { students, setStudents } = useContext(GlobalContext);
 
 
   const handleSnackbarClose = (event, reason) => {

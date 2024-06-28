@@ -7,6 +7,8 @@ const GlobalProvider = ({ children }) => {
   const [courses, setCourses] = useState([]);
   const [instructors, setInstructors] = useState([]);
   const [departments, setDepartments] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   // Fetches
   useEffect(() => {
@@ -43,7 +45,18 @@ const GlobalProvider = ({ children }) => {
 
 
   return (
-    <GlobalContext.Provider value={{ students, courses, instructors, departments, handleDeleteStudent, setStudents }}>
+    <GlobalContext.Provider value={{ 
+      students, 
+      setStudents,
+      courses, 
+      instructors, 
+      departments, 
+      handleDeleteStudent,  
+      errorMessage, 
+      setErrorMessage, 
+      successMessage, 
+      setSuccessMessage
+     }}>
       {children}
     </GlobalContext.Provider>
   );
