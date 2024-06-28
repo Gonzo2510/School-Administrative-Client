@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { GlobalContext } from '../context';
-import {TextField, Button, Typography, Select, MenuItem, FormControl, InputLabel, Snackbar } from '@mui/material';
+import { TextField, Button, Typography, Select, MenuItem, FormControl, InputLabel, Snackbar } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 
 const EnrollmentForm = () => {
-  const { students, setStudents, courses, setCourses } = useContext(GlobalContext)
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const { students, courses, errorMessage, setErrorMessage, successMessage, setSuccessMessage } = useContext(GlobalContext);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [selectedCourse, setSelectedCourse] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const formSchema = yup.object().shape({
@@ -26,7 +26,6 @@ const EnrollmentForm = () => {
     validationSchema: formSchema,
     onSubmit: async (formData, { resetForm }) => {
       try {
-        const selectedStudent = students.find((student) => student.id === parseInt(formData.student));
         const selectedCourse = courses.find((course) => course.id === parseInt(formData.course));
 
         if (!selectedStudent || !selectedCourse) {
@@ -53,6 +52,8 @@ const EnrollmentForm = () => {
 
         const data = await response.json();
         resetForm();
+        setSelectedStudent(null);
+        setSelectedCourse(null);
         setErrorMessage('');
         setSuccessMessage(`Submitted ${postData.grade} for ${selectedStudent.name} in ${selectedCourse.name}.`);
         setOpenSnackbar(true);
@@ -71,6 +72,20 @@ const EnrollmentForm = () => {
     setOpenSnackbar(false);
   };
 
+  const handleStudentChange = (e) => {
+    const selectedId = e.target.value;
+    const student = students.find(s => s.id === parseInt(selectedId));
+    setSelectedStudent(student);
+    formik.setFieldValue('student', selectedId);
+  };
+
+  const handleCourseChange = (e) => {
+    const selectedId = e.target.value;
+    const course = courses.find(c => c.id === parseInt(selectedId));
+    setSelectedCourse(course);
+    formik.setFieldValue('course', selectedId);
+  };
+
   return (
     <div>
       <Typography variant="h5" gutterBottom>
@@ -84,7 +99,7 @@ const EnrollmentForm = () => {
             id="student"
             label="student"
             value={formik.values.student}
-            onChange={formik.handleChange}
+            onChange={handleStudentChange}
             error={formik.touched.student && Boolean(formik.errors.student)}
           >
             <MenuItem value="" disabled>Select student</MenuItem>
@@ -107,7 +122,7 @@ const EnrollmentForm = () => {
             id="course"
             label="course"
             value={formik.values.course}
-            onChange={formik.handleChange}
+            onChange={handleCourseChange}
             error={formik.touched.course && Boolean(formik.errors.course)}
           >
             <MenuItem value="" disabled>Select course</MenuItem>
