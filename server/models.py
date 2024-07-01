@@ -49,7 +49,7 @@ class Student(db.Model, SerializerMixin):
     email = db.Column(db.String, unique=True, nullable=False)
 
     # relationship mapping student to related courses
-    enrollments = db.relationship('Enrollment', back_populates='student')
+    enrollments = db.relationship('Enrollment', back_populates='student', cascade='all, delete-orphan')
     courses = db.relationship('Course', secondary='enrollments', back_populates='students', overlaps="students,enrollments")
 
     # serialization rules
@@ -83,7 +83,7 @@ class Course(db.Model, SerializerMixin):
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
 
     # relationship mapping course to related enrollments
-    enrollments = db.relationship('Enrollment', back_populates='course')
+    enrollments = db.relationship('Enrollment', back_populates='course', cascade='all, delete-orphan')
 
     # relationship mapping course to related students
     students = db.relationship('Student', secondary='enrollments', back_populates='courses', overlaps="courses,enrollments")
