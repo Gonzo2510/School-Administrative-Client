@@ -6,7 +6,7 @@ import { TextField, Button, Typography, Select, MenuItem, FormControl, InputLabe
 import MuiAlert from '@mui/material/Alert';
 
 const EnrollmentForm = () => {
-  const { students, courses, errorMessage, setErrorMessage, successMessage, setSuccessMessage } = useContext(GlobalContext);
+  const { students, courses, errorMessage, setErrorMessage, successMessage, setSuccessMessage, fetchCourses } = useContext(GlobalContext);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -57,6 +57,7 @@ const EnrollmentForm = () => {
         setErrorMessage('');
         setSuccessMessage(`Submitted ${postData.grade} for ${selectedStudent.name} in ${selectedCourse.name}.`);
         setOpenSnackbar(true);
+        fetchCourses()
       } catch (error) {
         console.error('Error submitting form:', error);
         setSuccessMessage('');

@@ -15,7 +15,7 @@ const GlobalProvider = ({ children }) => {
     fetchStudents();
     fetchCourses();
     fetchInstructors()
-  }, [students]);
+  }, []);
 
   const fetchStudents = async () => {
     try {
@@ -54,6 +54,7 @@ const GlobalProvider = ({ children }) => {
         method: "DELETE",
     }).then(() => {
         setStudents((prevStudents) => prevStudents.filter((student) => student.id !== id));
+        fetchCourses()
     });
   };
 
@@ -71,7 +72,8 @@ const GlobalProvider = ({ children }) => {
       errorMessage, 
       setErrorMessage, 
       successMessage, 
-      setSuccessMessage
+      setSuccessMessage,
+      fetchCourses
      }}>
       {children}
     </GlobalContext.Provider>
