@@ -12,25 +12,41 @@ const GlobalProvider = ({ children }) => {
 
   // Fetches
   useEffect(() => {
-    fetch("http://127.0.0.1:5555/students")
-        .then((response) => response.json())
-        .then((data) => setStudents(data));
-  }, []);
+    fetchStudents();
+    fetchCourses();
+    fetchInstructors()
+  }, [students]);
 
-    useEffect(()=>{
-    fetch("http://127.0.0.1:5555/courses")
-    .then((response) => response.json())
-    .then((data) => setCourses(data))
-  }, [])
+  const fetchStudents = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5555/students');
+      const data = await response.json();
+      setStudents(data);
+    } catch (error) {
+      console.error('Error fetching students:', error);
+    }
+  };
 
-  useEffect(()=>{
-    fetch("http://127.0.0.1:5555/instructors")
-    .then((response) => response.json())
-    .then((data) => {
+  const fetchCourses = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5555/courses');
+      const data = await response.json();
+      setCourses(data);
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+    }
+  };
+
+  const fetchInstructors = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5555/instructors');
+      const data = await response.json();
       const sortedData = data.sort((a, b) => a.name.localeCompare(b.name))
       setInstructors(sortedData)
-    })
-  }, [])
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+    }
+  };
 
 
   const handleDeleteStudent = (id) => {
