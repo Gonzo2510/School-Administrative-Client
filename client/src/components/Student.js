@@ -10,8 +10,8 @@ const StudentCard = styled('ul')({
 });
 
 const Card = styled('div')({
-  backgroundColor: 'inherit', // Ensures background matches theme
-  color: 'inherit', // Ensures text color matches theme
+  backgroundColor: 'inherit',
+  color: 'inherit',
   padding: 20,
   boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
 });
