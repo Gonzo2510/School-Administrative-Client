@@ -13,7 +13,7 @@ function Register() {
     email: yup.string().email('Invalid email format').required('Email is required')
   });
 
-  const { students, setStudents, errorMessage, setErrorMessage, successMessage, setSuccessMessage } = useContext(GlobalContext);
+  const { students, setStudents, errorMessage, setErrorMessage, successMessage, setSuccessMessage, apiURL } = useContext(GlobalContext);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
 
@@ -31,7 +31,7 @@ function Register() {
     },
     validationSchema: formSchema,
     onSubmit: (formData, { resetForm }) => {
-      fetch('http://127.0.0.1:5555/students', {
+      fetch(`${apiURL}/students`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

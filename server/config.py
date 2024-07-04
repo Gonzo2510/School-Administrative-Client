@@ -12,9 +12,10 @@ from sqlalchemy import MetaData
 
 # Instantiate app, set attributes
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://project_5_db_4k8v_user:t8oXtYeWj7z28AXSpNAl2EHswpLTaIIX@dpg-cq2pe1g8fa8c73ant3og-a/project_5_db_4k8v'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.json.compact = False
+# app.json.compact = False
 
 # Define metadata, instantiate db
 metadata = MetaData(naming_convention={
@@ -28,4 +29,4 @@ db.init_app(app)
 api = Api(app)
 
 # Instantiate CORS
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "https://python-p5-project.onrender.com/"}})

@@ -6,7 +6,7 @@ import { TextField, Button, Typography, Select, MenuItem, FormControl, InputLabe
 import MuiAlert from '@mui/material/Alert';
 
 const EnrollmentForm = () => {
-  const { students, courses, errorMessage, setErrorMessage, successMessage, setSuccessMessage, fetchCourses } = useContext(GlobalContext);
+  const { students, courses, errorMessage, setErrorMessage, successMessage, setSuccessMessage, fetchCourses, apiURL } = useContext(GlobalContext);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -38,7 +38,7 @@ const EnrollmentForm = () => {
           grade: formData.grade,
         };
 
-        const response = await fetch('http://127.0.0.1:5555/enrollments', {
+        const response = await fetch(`${apiURL}/enrollments`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

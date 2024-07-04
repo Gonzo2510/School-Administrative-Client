@@ -15,7 +15,7 @@ import MuiAlert from '@mui/material/Alert';
 import { GlobalContext } from '../context';
 
 function UpdateStudent() {
-  const { students, setStudents, errorMessage, setErrorMessage, successMessage, setSuccessMessage } = useContext(GlobalContext);
+  const { students, setStudents, errorMessage, setErrorMessage, successMessage, setSuccessMessage, apiURL } = useContext(GlobalContext);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
@@ -31,7 +31,7 @@ function UpdateStudent() {
     },
     validationSchema: formSchema,
     onSubmit: (formData, { resetForm }) => {
-      fetch(`http://127.0.0.1:5555/students/${selectedStudent.id}`, {
+      fetch(`${apiURL}/${selectedStudent.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
