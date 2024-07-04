@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 
 # Standard library imports
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_cors import CORS
+from config import Config
 
 # Remote library imports
 from flask import request, make_response, jsonify
@@ -10,6 +15,16 @@ from flask_restful import Resource
 from config import app, db, api
 # Add your model imports
 from models import Student, Course, Department, Instructor, Enrollment
+
+
+app = Flask(__name__)
+app.config.from_object(Config)
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+CORS(app)
+
 
 # Views go here!
 
