@@ -14,8 +14,8 @@ import os
 # Instantiate app, set attributes
 app = Flask(__name__)
 class Config:
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_DATABASE_URI = os.getenv('postgresql://project_5_db_4k8v_user:t8oXtYeWj7z28AXSpNAl2EHswpLTaIIX@dpg-cq2pe1g8fa8c73ant3og-a.oregon-postgres.render.com/project_5_db_4k8v')
+    # SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Define metadata, instantiate db
 metadata = MetaData(naming_convention={
