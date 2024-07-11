@@ -11,7 +11,7 @@ import os
 # Instantiate app, set attributes
 app = Flask(__name__)
 class Config:
-    DATABASE_URL = os.getenv('postgresql://project_5_db_4k8v_user:t8oXtYeWj7z28AXSpNAl2EHswpLTaIIX@dpg-cq2pe1g8fa8c73ant3og-a.oregon-postgres.render.com/project_5_db_4k8v')
+    SQLALCHEMY_DATABASE_URI = os.getenv('postgresql://project_5_db_4k8v_user:t8oXtYeWj7z28AXSpNAl2EHswpLTaIIX@dpg-cq2pe1g8fa8c73ant3og-a.oregon-postgres.render.com/project_5_db_4k8v')
 
 # Apply the configuration to the app
 app.config.from_object(Config)
