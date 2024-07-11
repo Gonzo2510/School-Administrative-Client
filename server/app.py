@@ -1,28 +1,14 @@
 #!/usr/bin/env python3
-#!/usr/bin/env python3
 
 # Standard library imports
-from flask import Flask, request, make_response, jsonify
-from flask_cors import CORS
-from flask_migrate import Migrate
-from flask_restful import Api, Resource
-from flask_sqlalchemy import SQLAlchemy
-from config import Config
+from flask import request, make_response, jsonify
+
+# Remote library imports
+from flask_restful import Resource
 
 # Local imports
+from config import app, db
 from models import Student, Course, Department, Instructor, Enrollment
-
-
-# Instantiate app, set attributes
-app = Flask(__name__)
-app.config.from_object(Config)
-
-# Instantiate extensions
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-api = Api(app)
-CORS(app, resources={r"/*": {"origins": "https://python-p5-project.onrender.com"}})
-
 
 # Views go here!
 @app.route('/')
