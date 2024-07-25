@@ -10,9 +10,6 @@ const NavBar = ({ isDarkMode, toggleTheme }) => {
   return (
     <AppBar position="static" color={isDarkMode ? 'default' : 'primary'}>
       <Toolbar>
-        <IconButton edge="start" color="inherit" aria-label="menu">
-          <MenuIcon />
-        </IconButton>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           School Administration
         </Typography>
