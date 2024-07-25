@@ -43,7 +43,7 @@ function Course({ description, id, instructorName, departmentName, name, student
         <Instructor>Instructor: {instructorName}</Instructor>
         <Department>Department: {departmentName}</Department>
         <Students>Students: {studentNames}</Students>
-        <Button onClick={console.log(id)} variant="outlined" startIcon={<DeleteIcon />}>
+        <Button onClick={() => onDelete(console.log(id))} variant="outlined" startIcon={<DeleteIcon />}>
           Delete Course
         </Button>
       </CardContent>
