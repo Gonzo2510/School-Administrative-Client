@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from '@mui/system';
 import { Button, Card, CardContent, Typography } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const CourseCard = styled(Card)({
   marginBottom: 20,
