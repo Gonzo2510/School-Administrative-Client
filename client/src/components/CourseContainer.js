@@ -4,7 +4,7 @@ import { GlobalContext } from "../context";
 import { Grid, Typography } from '@mui/material';
 
 function CourseContainer() {
-  const { courses } = useContext(GlobalContext);
+  const { courses, handleDeleteCourse } = useContext(GlobalContext);
 
   return (
     <>
@@ -19,6 +19,7 @@ function CourseContainer() {
               departmentName={courseObj.department.name}
               name={courseObj.name}
               students={courseObj.students}
+              onDelete={handleDeleteCourse}
             />
           </Grid>
         ))}

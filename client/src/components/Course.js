@@ -32,7 +32,7 @@ const Students = styled(Typography)({
   marginBottom: 10,
 });
 
-function Course({ description, id, instructorName, departmentName, name, students }) {
+function Course({ description, id, instructorName, departmentName, name, students, onDelete }) {
   const studentNames = students.map(student => student.name).join(', ');
 
   return (
@@ -43,7 +43,7 @@ function Course({ description, id, instructorName, departmentName, name, student
         <Instructor>Instructor: {instructorName}</Instructor>
         <Department>Department: {departmentName}</Department>
         <Students>Students: {studentNames}</Students>
-        <Button onClick={() => (console.log(id))} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
+        <Button onClick={() => (onDelete(id))} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
       </CardContent>
     </CourseCard>
   );

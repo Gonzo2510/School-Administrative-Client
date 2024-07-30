@@ -58,6 +58,14 @@ const GlobalProvider = ({ children }) => {
         fetchCourses()
     });
   };
+  const handleDeleteCourse = (id) => {
+    fetch(`${apiURL}/courses/${id}`, {
+        method: "DELETE",
+    }).then(() => {
+        setCourses((prevCourses) => prevCourses.filter((course) => course.id !== id));
+        fetchCourses()
+    });
+  };
 
 
 
@@ -69,7 +77,8 @@ const GlobalProvider = ({ children }) => {
       courses, 
       instructors, 
       departments, 
-      handleDeleteStudent,  
+      handleDeleteStudent,
+      handleDeleteCourse,  
       errorMessage, 
       setErrorMessage, 
       successMessage, 
