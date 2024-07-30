@@ -32,7 +32,7 @@ function Student({ id, name, email, onDelete }) {
       <Card className="card">
         <Title className="card_title">{name}</Title>
         <Email className="card_email">Email: {email}</Email>
-        <Button onClick={() => onDelete(id)} variant="outlined" startIcon={<DeleteIcon />}></Button>
+        <Button onClick={() => onDelete(id)} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
       </Card>
     </StudentCard>
   );

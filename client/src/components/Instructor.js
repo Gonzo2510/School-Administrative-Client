@@ -19,7 +19,7 @@ function Instructor({ name, courses, id }) {
               </ListItem>
             ))}
           </List>
-          <Button onClick={() => (console.log(id))} variant="outlined" startIcon={<DeleteIcon />}></Button>
+          <Button onClick={() => (console.log(id))} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
         </div>
       </CardContent>
     </Card>
