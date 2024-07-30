@@ -220,6 +220,22 @@ def instructor():
     return response
 
 
+@app.route('/instructor/<int:id>', methods= ["DELETE"])
+def delete_instructor(id):
+    if request.method == "DELETE":
+        instructor = Instructor.query.filter(Instructor.id == id).first()
+
+        db.session.delete(instructor)
+        db.session.commit()
+
+        response = make_response(
+            {},
+            204
+        )
+
+        return response
+
+
 @app.route('/enrollments', methods=['GET','POST'])
 def create_enrollment():
 
