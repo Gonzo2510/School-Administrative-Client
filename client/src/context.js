@@ -58,12 +58,22 @@ const GlobalProvider = ({ children }) => {
         fetchCourses()
     });
   };
+
   const handleDeleteCourse = (id) => {
     fetch(`${apiURL}/courses/${id}`, {
         method: "DELETE",
     }).then(() => {
         setCourses((prevCourses) => prevCourses.filter((course) => course.id !== id));
         fetchCourses()
+    });
+  };
+
+  const handleDeleteInstructor = (id) => {
+    fetch(`${apiURL}/instructors/${id}`, {
+        method: "DELETE",
+    }).then(() => {
+        setInstructors((prevInstructors) => prevInstructors.filter((instructor) => instructor.id !== id));
+        fetchInstructors()
     });
   };
 
@@ -78,7 +88,8 @@ const GlobalProvider = ({ children }) => {
       instructors, 
       departments, 
       handleDeleteStudent,
-      handleDeleteCourse,  
+      handleDeleteCourse,
+      handleDeleteInstructor,  
       errorMessage, 
       setErrorMessage, 
       successMessage, 

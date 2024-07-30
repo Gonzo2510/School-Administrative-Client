@@ -3,7 +3,7 @@ import { Button, Card, CardContent, Typography, List, ListItem, ListItemText } f
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
-function Instructor({ name, courses, id }) {
+function Instructor({ name, courses, id, onDelete }) {
   return (
     <Card className="instructor_card_item" data-id={id}>
       <CardContent>
@@ -19,7 +19,7 @@ function Instructor({ name, courses, id }) {
               </ListItem>
             ))}
           </List>
-          <Button onClick={() => (console.log(id))} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
+          <Button onClick={() => (onDelete(id))} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
         </div>
       </CardContent>
     </Card>

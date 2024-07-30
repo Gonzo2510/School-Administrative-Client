@@ -4,7 +4,7 @@ import Instructor from "./Instructor";
 import { GlobalContext } from "../context";
 
 function InstructorsContainer() {
-  const { instructors } = useContext(GlobalContext);
+  const { instructors, handleDeleteInstructor } = useContext(GlobalContext);
 
   const renderedInstructorsArr = instructors.map((instructorObj) => (
     <Grid item xs={12} md={6} lg={4} key={instructorObj.id}>
@@ -12,6 +12,7 @@ function InstructorsContainer() {
         id={instructorObj.id}
         name={instructorObj.name}
         courses={instructorObj.courses}
+        onDelete={handleDeleteInstructor}
       />
     </Grid>
   ));
