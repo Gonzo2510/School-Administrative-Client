@@ -62,9 +62,7 @@ function Register() {
     container: {
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center',
-      height: '100vh', // Full viewport height
-      backgroundColor: '#f0f0f0', // Optional: just to visualize the container
+      alignItems: 'flex-start',
     },
   };
 
