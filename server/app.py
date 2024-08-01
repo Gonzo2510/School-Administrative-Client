@@ -54,6 +54,14 @@ def student_by_id(id):
     student = Student.query.filter(Student.id == id).first()
     
     if student:
+        if request.method == 'GET':
+            student_dict = student.to_dict()
+
+            response = make_response(
+                student_dict,
+                200
+            )
+
         if request.method == 'DELETE':
             # delete enrollments for student
             enrollments = Enrollment.query.filter_by(student_id=id).all()
@@ -135,20 +143,33 @@ def courses():
     return response
 
 
-@app.route('/courses/<int:id>', methods= ["DELETE"])
-def delete_course(id):
-    if request.method == "DELETE":
-        course = Course.query.filter(Course.id == id).first()
+@app.route('/courses/<int:id>', methods= ["GET","DELETE"])
+def course_by_id(id):
+    course = Course.query.filter(Course.id == id).first()
 
-        db.session.delete(course)
-        db.session.commit()
+    if course:
+        if request.method == 'GET':
+            course_dict = course.to_dict()
 
+            response = make_response(
+                course_dict,
+                200
+            )
+
+        if request.method == "DELETE":
+            db.session.delete(course)
+            db.session.commit()
+
+            response = make_response(
+                {},
+                204
+            )
+    else:
         response = make_response(
-            {},
-            204
+            { "error": "Course not found" },
+            404
         )
-
-        return response
+    return response
 
 
 @app.route('/departments', methods=['GET', 'POST'])

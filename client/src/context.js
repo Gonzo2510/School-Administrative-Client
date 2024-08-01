@@ -10,6 +10,7 @@ const GlobalProvider = ({ children }) => {
   const [departments, setDepartments] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [loading, setLoading] = useState(true)
 
   // Fetches
   useEffect(() => {
@@ -23,8 +24,10 @@ const GlobalProvider = ({ children }) => {
       const response = await fetch(`${apiURL}/students`);
       const data = await response.json();
       setStudents(data);
+      setLoading(false)
     } catch (error) {
       console.error('Error fetching students:', error);
+      setLoading(false)
     }
   };
 
@@ -33,8 +36,10 @@ const GlobalProvider = ({ children }) => {
       const response = await fetch(`${apiURL}/courses`);
       const data = await response.json();
       setCourses(data);
+      setLoading(false)
     } catch (error) {
       console.error('Error fetching courses:', error);
+      setLoading(false)
     }
   };
 
@@ -44,8 +49,10 @@ const GlobalProvider = ({ children }) => {
       const data = await response.json();
       const sortedData = data.sort((a, b) => a.name.localeCompare(b.name))
       setInstructors(sortedData)
+      setLoading(false)
     } catch (error) {
       console.error('Error fetching courses:', error);
+      setLoading(false)
     }
   };
 
@@ -78,8 +85,6 @@ const GlobalProvider = ({ children }) => {
   };
 
 
-
-
   return (
     <GlobalContext.Provider value={{ 
       students, 
@@ -95,7 +100,8 @@ const GlobalProvider = ({ children }) => {
       successMessage, 
       setSuccessMessage,
       fetchCourses,
-      apiURL
+      apiURL,
+      loading
      }}>
       {children}
     </GlobalContext.Provider>

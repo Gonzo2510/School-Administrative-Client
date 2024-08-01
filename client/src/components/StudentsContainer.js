@@ -4,12 +4,16 @@ import Student from './Student';
 import { GlobalContext } from '../context';
 
 function StudentsContainer({ searchTerm }) {
-  const { students, handleDeleteStudent } = useContext(GlobalContext);
+  const { students, handleDeleteStudent, loading } = useContext(GlobalContext);
 
   const filteredStudentsArr = students.filter(
     student =>
       searchTerm === '' || (student.name && student.name.toLowerCase().includes(searchTerm.toLowerCase()))
   );
+
+  if (loading) {
+    return <div style={{ fontSize: '24px', textAlign: 'center' }}>The database is spinning up. The data will appear within 60 seconds.</div>;
+  }
 
   return (
     <Grid container spacing={2}>
