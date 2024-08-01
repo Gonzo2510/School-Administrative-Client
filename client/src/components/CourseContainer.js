@@ -4,7 +4,11 @@ import { GlobalContext } from "../context";
 import { Grid, Typography } from '@mui/material';
 
 function CourseContainer() {
-  const { courses, handleDeleteCourse } = useContext(GlobalContext);
+  const { courses, handleDeleteCourse, loading } = useContext(GlobalContext);
+
+  if (loading) {
+    return <div style={{ fontSize: '24px', textAlign: 'center' }}>The database is spinning up. The data will appear within 60 seconds.</div>;
+  }
 
   return (
     <>

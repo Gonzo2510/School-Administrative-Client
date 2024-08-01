@@ -8,3 +8,10 @@
   border: 1px solid #83a4ff;
   border-radius: 10px;
 }
+
+.loading-message {
+  font-size: 24px;
+  text-align: center;
+  margin-top: 20%;
+  color: #333;
+}
