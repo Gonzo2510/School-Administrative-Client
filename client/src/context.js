@@ -58,7 +58,7 @@ const GlobalProvider = ({ children }) => {
 
 
   const handleDeleteStudent = (id) => {
-    fetch(`${apiURL}/students/${id}`, {
+    fetch(`${apiURL}/student/${id}`, {
         method: "DELETE",
     }).then(() => {
         setStudents((prevStudents) => prevStudents.filter((student) => student.id !== id));
@@ -67,7 +67,7 @@ const GlobalProvider = ({ children }) => {
   };
 
   const handleDeleteCourse = (id) => {
-    fetch(`${apiURL}/courses/${id}`, {
+    fetch(`${apiURL}/course/${id}`, {
         method: "DELETE",
     }).then(() => {
         setCourses((prevCourses) => prevCourses.filter((course) => course.id !== id));
@@ -76,7 +76,7 @@ const GlobalProvider = ({ children }) => {
   };
 
   const handleDeleteInstructor = (id) => {
-    fetch(`${apiURL}/instructors/${id}`, {
+    fetch(`${apiURL}/instructor/${id}`, {
         method: "DELETE",
     }).then(() => {
         setInstructors((prevInstructors) => prevInstructors.filter((instructor) => instructor.id !== id));

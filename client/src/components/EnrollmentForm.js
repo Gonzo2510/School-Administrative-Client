@@ -90,7 +90,7 @@ const EnrollmentForm = () => {
   return (
     <div>
       <Typography variant="h5" gutterBottom>
-        Set Student Final Grade
+        Set Student Current Grade
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <FormControl fullWidth margin="normal">

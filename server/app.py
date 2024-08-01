@@ -49,7 +49,7 @@ def students():
             )
     return response
 
-@app.route('/students/<int:id>', methods=['GET', 'DELETE', 'PATCH'])
+@app.route('/student/<int:id>', methods=['GET', 'DELETE', 'PATCH'])
 def student_by_id(id):
     student = Student.query.filter(Student.id == id).first()
     
@@ -139,11 +139,10 @@ def courses():
                 {"error": ["validation error"]},
                 400
             )
-
     return response
 
 
-@app.route('/courses/<int:id>', methods= ["GET","DELETE"])
+@app.route('/course/<int:id>', methods= ["GET", "DELETE", "PATCH"])
 def course_by_id(id):
     course = Course.query.filter(Course.id == id).first()
 
@@ -156,7 +155,7 @@ def course_by_id(id):
                 200
             )
 
-        if request.method == "DELETE":
+        elif request.method == "DELETE":
             db.session.delete(course)
             db.session.commit()
 
@@ -164,6 +163,24 @@ def course_by_id(id):
                 {},
                 204
             )
+
+        elif request.method == 'PATCH':
+            form_data = request.get_json()
+            try:
+                for attr in form_data:
+                    setattr(course, attr, form_data.get(attr))
+                    db.session.commit()
+
+                    response = make_response(
+                        course.to_dict(), 
+                        202
+                    )
+            except ValueError:
+                response = make_response(
+                    { "error": "validation error"},
+                    404
+                )
+
     else:
         response = make_response(
             { "error": "Course not found" },
@@ -203,7 +220,52 @@ def departments():
                 {"error": ["validation error"]},
                 400
             )
+    return response
 
+@app.route('/department/<int:id>', methods= ["GET", "DELETE"])
+def department_by_id(id):
+    department = Department.query.filter(Department.id == id).first()
+
+    if department:
+        if request.method == 'GET':
+            department_dict = department.to_dict()
+
+            response = make_response(
+                department_dict,
+                200
+            )
+
+        elif request.method == "DELETE":
+            db.session.delete(department)
+            db.session.commit()
+
+            response = make_response(
+                {},
+                204
+            )
+
+        elif request.method == 'PATCH':
+            form_data = request.get_json()
+            try:
+                for attr in form_data:
+                    setattr(department, attr, form_data.get(attr))
+                    db.session.commit()
+
+                    response = make_response(
+                        department.to_dict(), 
+                        202
+                    )
+            except ValueError:
+                response = make_response(
+                    { "error": "validation error"},
+                    404
+                )
+
+    else:
+        response = make_response(
+            { "error": "Department not found" },
+            404
+        )
     return response
     
 @app.route('/instructors', methods=['GET', 'POST'])
@@ -241,20 +303,51 @@ def instructor():
     return response
 
 
-@app.route('/instructor/<int:id>', methods= ["DELETE"])
+@app.route('/instructor/<int:id>', methods= ["GET", "DELETE", "POST"])
 def delete_instructor(id):
-    if request.method == "DELETE":
-        instructor = Instructor.query.filter(Instructor.id == id).first()
+    instructor = Instructor.query.filter(Instructor.id == id).first()
 
-        db.session.delete(instructor)
-        db.session.commit()
+    if instructor:
+        if request.method == 'GET':
+            instructor_dict = instructor.to_dict()
 
+            response = make_response(
+                instructor_dict,
+                200
+            )
+        elif request.method == "DELETE":
+
+            db.session.delete(instructor)
+            db.session.commit()
+
+            response = make_response(
+                {},
+                204
+            )
+
+        elif request.method == 'PATCH':
+            form_data = request.get_json()
+            try:
+                for attr in form_data:
+                    setattr(instructor, attr, form_data.get(attr))
+                    db.session.commit()
+
+                    response = make_response(
+                        instructor.to_dict(), 
+                        202
+                    )
+            except ValueError:
+                response = make_response(
+                    { "error": "validation error"},
+                    404
+                )
+
+    else:
         response = make_response(
-            {},
-            204
+            { "error": "Instructor not found" },
+            404
         )
-
-        return response
+    return response
 
 
 @app.route('/enrollments', methods=['GET','POST'])
