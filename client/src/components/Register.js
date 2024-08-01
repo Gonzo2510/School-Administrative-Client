@@ -58,8 +58,23 @@ function Register() {
     }
   });
 
+  const styles = {
+    container: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh', // Full viewport height
+      backgroundColor: '#f0f0f0', // Optional: just to visualize the container
+    },
+  };
+
   return (
     <>
+    <div style={styles.container}>
+      <Button variant="outlined" color="primary">Student</Button>
+      <Button variant="outlined" color="primary">Course</Button>
+      <Button variant="outlined" color="primary">Instructor</Button>
+    </div>
       <form onSubmit={formik.handleSubmit}>
         <Typography variant="h5" gutterBottom>
           Create New Student
