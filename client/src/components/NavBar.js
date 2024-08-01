@@ -1,6 +1,5 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { Link as RouterLink } from 'react-router-dom';

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Button, Grid } from "@mui/material";
+import { TextField, Button, Grid, Typography } from "@mui/material";
 import StudentsContainer from "./StudentsContainer";
 
 function Home() {
@@ -15,7 +15,7 @@ function Home() {
 
   return (
     <>
-      <h2>Search for a student below</h2>
+      <Typography variant="h2" gutterBottom>Students</Typography>
       <form onSubmit={handleSubmit}>
         <Grid container alignItems="center" spacing={2}>
           <Grid item xs={8}>
