@@ -8,7 +8,7 @@ from sqlalchemy import MetaData
 import os
 
 class Config:
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql://project_5_db_4k8v_user:t8oXtYeWj7z28AXSpNAl2EHswpLTaIIX@dpg-cq2pe1g8fa8c73ant3og-a.oregon-postgres.render.com/project_5_db_4k8v')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql://my_database_nz2w_user:wFlIshr4BXzzxut9XAzhNRVwFbXPfBZU@dpg-cqqgu9rqf0us738ufbjg-a.oregon-postgres.render.com/my_database_nz2w')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Instantiate Flask app
