@@ -5,6 +5,7 @@ services:
     plan: free
     buildCommand: |
       pip install -r requirements.txt
+      flask db migrate -m "Create tables"
       flask db upgrade
       python seed.py
     startCommand: gunicorn app:app
