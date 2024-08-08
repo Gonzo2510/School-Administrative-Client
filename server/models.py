@@ -1,10 +1,9 @@
 from sqlalchemy_serializer import SerializerMixin
-from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
 
 from config import db
 
-# Models go here!
+# Models
 
 
 class Enrollment(db.Model, SerializerMixin):
@@ -17,29 +16,20 @@ class Enrollment(db.Model, SerializerMixin):
     student = db.relationship('Student', back_populates='enrollments')
     course = db.relationship('Course', back_populates='enrollments')
 
-    def serialize(self):
-        return{
-            'id': self.id,
-            'student_id': self.student_id,
-            'course_id': self.course_id,
-            'grade': self.grade,
-        }
-
     serialize_rules = (
         '-student_id',
-        '-course_id', 
-        '-student.email', 
-        '-student.enrollments', 
-        '-student.courses', 
-        '-course.department', 
-        '-course.instructor', 
+        '-course_id',
+        '-student.email',
+        '-student.enrollments',
+        '-student.courses',
+        '-course.department',
+        '-course.instructor',
         '-course.instructor_id',
         '-course.department_id',
         '-course.description',
         '-course.enrollments',
         '-course.students',
-  
-        )
+    )
 
 
 class Student(db.Model, SerializerMixin):
@@ -48,14 +38,11 @@ class Student(db.Model, SerializerMixin):
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
 
-    # relationship mapping student to related courses
     enrollments = db.relationship('Enrollment', back_populates='student', cascade='all, delete-orphan')
-    courses = db.relationship('Course', secondary='enrollments', back_populates='students', overlaps="students,enrollments")
+    courses = db.relationship('Course', secondary='enrollments', back_populates='students', overlaps="courses,enrollments")
 
-    # serialization rules
     serialize_rules = ('-enrollments.student', '-enrollments.course', '-courses.students')
 
-    # add validation
     @validates('name')
     def validate_name(self, key, name):
         if not name:
@@ -78,26 +65,19 @@ class Course(db.Model, SerializerMixin):
     name = db.Column(db.String, unique=True, nullable=False)
     description = db.Column(db.String(120), nullable=False)
 
-    # Foreign key referencing the Instructor/Department table
     instructor_id = db.Column(db.Integer, db.ForeignKey('instructors.id'))
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
 
-    # relationship mapping course to related enrollments
     enrollments = db.relationship('Enrollment', back_populates='course', cascade='all, delete-orphan')
+    students = db.relationship('Student', secondary='enrollments', back_populates='courses', overlaps="students,enrollments")
 
-    # relationship mapping course to related students
-    students = db.relationship('Student', secondary='enrollments', back_populates='courses', overlaps="courses,enrollments")
-
-    # Relationship to the Instructor table
     instructor = db.relationship("Instructor", back_populates='courses')
-
     department = db.relationship('Department', back_populates='courses')
 
-    # add serialization rules
     serialize_rules = (
-        '-enrollments.course', 
-        '-students.courses', 
-        '-instructor.courses', 
+        '-enrollments.course',
+        '-students.courses',
+        '-instructor.courses',
         '-department.courses',
         '-department_id',
         '-enrollments',
@@ -106,7 +86,6 @@ class Course(db.Model, SerializerMixin):
         '-students.email',
     )
 
-    # add validation
     @validates('name')
     def validate_name(self, key, name):
         if not name:
@@ -122,7 +101,6 @@ class Department(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
 
-    # Add relationships
     courses = db.relationship('Course', back_populates='department')
 
     serialize_rules = ('-courses.department',)
@@ -136,10 +114,8 @@ class Instructor(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
     
-    # relationships
     courses = db.relationship('Course', back_populates='instructor')
 
-    # serialization rules
     serialize_rules = ('-courses.instructor',)
 
     def __repr__(self):
