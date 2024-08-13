@@ -6,7 +6,7 @@ services:
     buildCommand: |
       pip install -r requirements.txt
       flask db upgrade
-      # Run seed script only if certain conditions are met
+      # Run seed script only if it hasn't been run before
       if [ ! -f .seeded ]; then
         python seed.py
         touch .seeded
