@@ -5,9 +5,12 @@ services:
     plan: free
     buildCommand: |
       pip install -r requirements.txt
-      flask db migrate -m "Create tables"
       flask db upgrade
-      python seed.py
+      # Run seed script only if certain conditions are met
+      if [ ! -f .seeded ]; then
+        python seed.py
+        touch .seeded
+      fi
     startCommand: gunicorn app:app
     envVars:
       - key: FLASK_APP
