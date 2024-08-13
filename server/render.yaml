@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: project-5-backend
+    name: my_database
     env: python
     plan: free
     buildCommand: |
