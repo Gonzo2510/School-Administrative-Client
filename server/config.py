@@ -15,6 +15,7 @@ class Config:
         db_password = os.getenv('DB_PASSWORD')
         if db_base_url and db_password:
             self.SQLALCHEMY_DATABASE_URI = db_base_url.replace('://', f':{db_password}@')
+            print(f"Database URI: {self.SQLALCHEMY_DATABASE_URI}")
         else:
             raise ValueError("DATABASE_URL or DB_PASSWORD not set in environment variables")
 
