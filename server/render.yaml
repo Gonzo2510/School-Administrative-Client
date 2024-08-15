@@ -5,17 +5,15 @@ services:
     plan: free
     buildCommand: |
       pip install -r requirements.txt
-      # Include database setup (replace with your specific command)
       flask db init
-      # If using migrations, apply them
       flask db migrate
       flask db upgrade
 
-      # Run seed script only if it hasn't been run before
       if [ ! -f .seeded ]; then
         python seed.py
         touch .seeded
       fi
     env:
-      DATABASE_URL: ${DATABASE_URL}  # Access DB URL from env variable
+      DATABASE_URL: ${DATABASE_URL}  # Ensure this is set correctly
+      DB_PASSWORD: ${DB_PASSWORD}    # Ensure this is set correctly
     startCommand: gunicorn app:app
