@@ -9,7 +9,7 @@ import os
 
 class Config:
     def __init__(self):
-        db_base_url = os.getenv('app-database')
+        db_base_url = os.getenv('DATABASE_URL')
         db_password = os.getenv('db-password')
         self.SQLALCHEMY_DATABASE_URI = db_base_url.replace(':', f':{db_password}@')
         SQLALCHEMY_TRACK_MODIFICATIONS = False
