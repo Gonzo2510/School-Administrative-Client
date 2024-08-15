@@ -8,8 +8,11 @@ from sqlalchemy import MetaData
 import os
 
 class Config:
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql://my_database_nz2w_user:wFlIshr4BXzzxut9XAzhNRVwFbXPfBZU@dpg-cqqgu9rqf0us738ufbjg-a/my_database_nz2w')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    def __init__(self):
+        db_base_url = os.getenv('app-database')
+        db_password = os.getenv('db-password')
+        self.SQLALCHEMY_DATABASE_URI = db_base_url.replace(':', f':{db_password}@')
+        SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Instantiate Flask app
 app = Flask(__name__)
