@@ -14,9 +14,13 @@ https://youtu.be/TlPnBoTW9xc
 
 ## Installation
 
+To use the fully functioning online application go to the following link:
+https://python-p5-project.onrender.com/
+
+
 To install this application, fork and clone this the link below
 
-https://github.com/Gonzo2510/python-p4-project
+https://github.com/Gonzo2510/School-Administrative-Client/tree/Material_UI
 
 In a wsl terminal type the following commands: 
 1. git clone {your ssh link}
