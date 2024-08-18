@@ -6,11 +6,7 @@ services:
     buildCommand: |
       pip install -r requirements.txt
       flask db upgrade
-      
-      if [ ! -f .seeded ]; then
-        python seed.py
-        touch .seeded
-      fi
+      python seed.py
     env:
       DATABASE_URL: ${DATABASE_URI}
     startCommand: gunicorn app:app
