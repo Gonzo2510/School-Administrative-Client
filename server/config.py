@@ -7,21 +7,12 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 import os
 
-class Config:
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-    def __init__(self):
-        db_base_url = os.getenv('DATABASE_URL')
-        db_password = os.getenv('DB_PASSWORD')
-        if db_base_url and db_password:
-            self.SQLALCHEMY_DATABASE_URI = db_base_url.replace('://', f':{db_password}@')
-            print(f"Database URI: {self.SQLALCHEMY_DATABASE_URI}")
-        else:
-            raise ValueError("DATABASE_URL or DB_PASSWORD not set in environment variables")
 
 # Instantiate Flask app
 app = Flask(__name__)
-app.config.from_object(Config)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+
 
 # Define metadata and instantiate db
 metadata = MetaData(naming_convention={
