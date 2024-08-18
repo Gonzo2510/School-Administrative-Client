@@ -5,9 +5,8 @@ services:
     plan: free
     buildCommand: |
       pip install -r requirements.txt
-      flask db migrate
       flask db upgrade
-
+      
       if [ ! -f .seeded ]; then
         python seed.py
         touch .seeded
