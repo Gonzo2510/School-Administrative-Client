@@ -10,9 +10,9 @@ import os
 
 # Instantiate Flask app
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
+print(os.getenv('DATABASE_URI'))
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-
 
 # Define metadata and instantiate db
 metadata = MetaData(naming_convention={
