@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, IconButton } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, MenuIcon } from '@mui/material';
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { Link as RouterLink } from 'react-router-dom';
@@ -9,6 +9,11 @@ const NavBar = ({ isDarkMode, toggleTheme }) => {
   return (
     <AppBar position="static" color={isDarkMode ? 'default' : 'primary'}>
       <Toolbar>
+        <MenuIcon>
+          <MenuItem>
+            seed database
+          </MenuItem>
+        </MenuIcon>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           School Administration
         </Typography>
