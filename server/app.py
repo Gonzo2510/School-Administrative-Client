@@ -9,8 +9,7 @@ from flask_restful import Resource
 # Local imports
 from config import app, db
 from models import Student, Course, Department, Instructor, Enrollment
-
-import subprocess
+from seed import seed_database
 
 # Views go here!
 @app.route('/')
@@ -20,15 +19,14 @@ def index():
         '<button onclick="window.location.href=\'/run-seed\'">Clear and seed Database</button>'
     )
 
-@app.route('/run-seed')
+@app.route('/run-seed', methods=['GET'])
 def run_seed():
     try:
-        # Run the seed.py script
-        result = subprocess.run(["python3", "seed.py"], capture_output=True, text=True)
-        output = result.stdout + result.stderr
+        with app.app_context():
+            seed_database()
+        return "Database seeded successfully!"
 
         # Return the output to the browser
-        return f"<h1>Seed Script Output</h1><pre>{output}</pre><br><a href='/'>Go Back</a>"
     except Exception as e:
         return f"<h1>Error</h1><pre>{str(e)}</pre><br><a href='/'>Go Back</a>"
 
