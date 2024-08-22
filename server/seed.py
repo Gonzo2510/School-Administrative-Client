@@ -92,11 +92,11 @@ def create_enrollments(students, courses):
     return enrollments
 
 def seed_database():
-    if db.session.query(Department).count() > 0:
-        print("Database already seeded.")
-        return
+    # if db.session.query(Department).count() > 0:
+    #     print("Database already seeded.")
+    #     return
 
-    else:   
+    # else:   
         db.create_all()
         print("Clearing db...")
         Enrollment.query.delete()
@@ -134,4 +134,4 @@ def seed_database():
 
 
         print("Done seeding!")
-    return 
+        return 
