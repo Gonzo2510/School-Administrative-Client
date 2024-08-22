@@ -7,7 +7,7 @@ from random import randint, choice as rc
 from faker import Faker
 
 # Local imports
-from app import app
+# from app import app
 from models import db, Student, Course, Enrollment, Department, Instructor
 
 fake = Faker()
@@ -96,46 +96,42 @@ def seed_database():
         print("Database already seeded.")
         return
 
-    if __name__ == '__main__':
-        with app.app_context():
-            
-            db.create_all()
-            print("Clearing db...")
-            Enrollment.query.delete()
-            Student.query.delete()
-            Course.query.delete()
-            Department.query.delete()
-            Instructor.query.delete()
+    else:   
+        db.create_all()
+        print("Clearing db...")
+        Enrollment.query.delete()
+        Student.query.delete()
+        Course.query.delete()
+        Department.query.delete()
+        Instructor.query.delete()
 
-            print("Seeding departments...")
-            departments = create_departments()
-            db.session.add_all(departments)
-            db.session.commit()
+        print("Seeding departments...")
+        departments = create_departments()
+        db.session.add_all(departments)
+        db.session.commit()
 
-            print("Seeding instructors...")
-            instructors = create_instructors()
-            db.session.add_all(instructors)
-            db.session.commit()
+        print("Seeding instructors...")
+        instructors = create_instructors()
+        db.session.add_all(instructors)
+        db.session.commit()
 
-            print("Seeding students...")
-            students = create_students()
-            db.session.add_all(students)
-            db.session.commit()
+        print("Seeding students...")
+        students = create_students()
+        db.session.add_all(students)
+        db.session.commit()
 
-            print("Seeding courses...")
-            departments = Department.query.all()
-            instructors = Instructor.query.all()
-            courses = create_courses(departments, instructors)
-            db.session.add_all(courses)
-            db.session.commit()
+        print("Seeding courses...")
+        departments = Department.query.all()
+        instructors = Instructor.query.all()
+        courses = create_courses(departments, instructors)
+        db.session.add_all(courses)
+        db.session.commit()
 
-            print("Seeding enrollments...")
-            enrollments = create_enrollments(students, courses)
-            db.session.add_all(enrollments)
-            db.session.commit()
+        print("Seeding enrollments...")
+        enrollments = create_enrollments(students, courses)
+        db.session.add_all(enrollments)
+        db.session.commit()
 
 
-            print("Done seeding!")
+        print("Done seeding!")
     return 
-
-seed_database()

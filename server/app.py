@@ -9,26 +9,29 @@ from flask_restful import Resource
 # Local imports
 from config import app, db
 from models import Student, Course, Department, Instructor, Enrollment
-# from seed import seed_database
+from seed import seed_database
 
 # Views go here!
 @app.route('/')
 def index():
     return (
         '<h1>Project Server</h1>'
-        # '<button onclick="window.location.href=\'/run-seed\'">Clear and seed Database</button>'
+        '<button onclick="window.location.href=\'/run-seed\'">Clear and seed Database</button>'
     )
 
-# @app.route('/run-seed', methods=['GET'])
-# def run_seed():
-#     try:
-#         with app.app_context():
-#             seed_database()
-#         return "Database seeded successfully!"
+@app.route('/run-seed', methods=['GET'])
+def run_seed():
+    try:
+        with app.app_context():
+            seed_database()
+        return (
+            "<h2>Database seeded successfully!<h2/>"
+            "<br><a href='/'>Go Back</a>"
+        )
 
-#         # Return the output to the browser
-#     except Exception as e:
-#         return f"<h1>Error</h1><pre>{str(e)}</pre><br><a href='/'>Go Back</a>"
+        # Return the output to the browser
+    except Exception as e:
+        return f"<h1>Error</h1><pre>{str(e)}</pre><br><a href='/'>Go Back</a>"
 
 
 @app.route('/students', methods=['GET', 'POST'])
