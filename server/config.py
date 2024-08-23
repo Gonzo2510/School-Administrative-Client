@@ -6,14 +6,11 @@ from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 import os
-from flask_cors import CORS
 
 
 
 # Instantiate Flask app
 app = Flask(__name__)
-CORS(app)
-# print(os.getenv('DATABASE_URI'))
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -31,4 +28,6 @@ db.init_app(app)
 api = Api(app)
 
 # Instantiate CORS
-CORS(app, resources={r"/*": {"origins": "https://python-p5-project.onrender.com"}})
+# CORS(app, resources={r"/*": {"origins": "https://python-p5-project.onrender.com"}})
+CORS(app)
+
