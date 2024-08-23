@@ -11,6 +11,7 @@ from config import app, db
 from models import Student, Course, Department, Instructor, Enrollment
 from seed import seed_database
 
+
 # Views go here!
 @app.route('/')
 def index():
