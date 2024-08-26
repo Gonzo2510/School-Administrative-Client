@@ -8,7 +8,9 @@ import { GlobalContext } from '../context';
 
 
 function Register() {
-  const formSchema = yup.object().shape({
+
+  
+  const createFormSchema = yup.object().shape({
     name: yup.string().required('Name is required').max(25, 'Name must be at most 25 characters').min(3, 'Name must be at least 3 characters'),
     email: yup.string().email('Invalid email format').required('Email is required')
   });
@@ -29,7 +31,7 @@ function Register() {
       name: '',
       email: ''
     },
-    validationSchema: formSchema,
+    validationSchema: createFormSchema,
     onSubmit: (formData, { resetForm }) => {
       fetch(`${apiURL}/students`, {
         method: 'POST',
@@ -121,7 +123,7 @@ function Register() {
         </MuiAlert>
       </Snackbar>
       <br />
-      <UpdateStudent />
+      <CreateUpdateStudent />
     </>
   );
 }

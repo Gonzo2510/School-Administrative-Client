@@ -15,11 +15,13 @@ import MuiAlert from '@mui/material/Alert';
 import { GlobalContext } from '../context';
 
 function UpdateStudent() {
+
+  
   const { students, setStudents, errorMessage, setErrorMessage, successMessage, setSuccessMessage, apiURL } = useContext(GlobalContext);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  const formSchema = yup.object().shape({
+  const updateFormSchema = yup.object().shape({
     name: yup.string().required('Name is required').max(25, 'Name must be at most 25 characters').min(3, 'Name must be at least 3 characters'),
     email: yup.string().email('Invalid email format').required('Email is required')
   });
@@ -29,7 +31,7 @@ function UpdateStudent() {
       name: '',
       email: ''
     },
-    validationSchema: formSchema,
+    validationSchema: updateFormSchema,
     onSubmit: (formData, { resetForm }) => {
       fetch(`${apiURL}/${selectedStudent.id}`, {
         method: 'PATCH',
@@ -77,6 +79,18 @@ function UpdateStudent() {
     setOpenSnackbar(false);
   };
 
+
+
+
+
+
+
+
+
+
+
+
+  
   return (
     <div id='update_student'>
       <Typography variant="h5" gutterBottom>
