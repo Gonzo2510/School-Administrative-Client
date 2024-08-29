@@ -16,7 +16,8 @@ import { GlobalContext } from '../context';
 
 function UpdateStudent() {
 
-  
+  // const { students, setStudents, errorMessage, setErrorMessage, successMessage, setSuccessMessage, apiURL } = useContext(GlobalContext);
+  // const [openSnackbar, setOpenSnackbar] = useState(false);
   const { students, setStudents, errorMessage, setErrorMessage, successMessage, setSuccessMessage, apiURL } = useContext(GlobalContext);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -26,7 +27,46 @@ function UpdateStudent() {
     email: yup.string().email('Invalid email format').required('Email is required')
   });
 
-  const formik = useFormik({
+  // const createFormSchema = yup.object().shape({
+  //   name: yup.string().required('Name is required').max(25, 'Name must be at most 25 characters').min(3, 'Name must be at least 3 characters'),
+  //   email: yup.string().email('Invalid email format').required('Email is required')
+  // });
+
+  const formikCreate = useFormik({
+    initialValues: {
+      name: '',
+      email: ''
+    },
+    validationSchema: updateFormSchema,
+    onSubmit: (formData, { resetForm }) => {
+      fetch(`${apiURL}/students`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((r) => {
+          if (!r.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return r.json();
+        })
+        .then((signup) => {
+          resetForm();
+          setSuccessMessage(`${signup.name} has been registered!`);
+          setStudents([...students, signup])
+          setOpenSnackbar(true);
+        })
+        .catch((error) => {
+          console.log('Error submitting form:', error);
+          setSuccessMessage('');
+          setErrorMessage(error.message);
+        });
+    }
+  });
+
+  const formikUpdate = useFormik({
     initialValues: {
       name: '',
       email: ''
@@ -66,7 +106,7 @@ function UpdateStudent() {
     const selectedId = e.target.value;
     const student = students.find(s => s.id === parseInt(selectedId));
     setSelectedStudent(student);
-    formik.setValues({
+    formikUpdate.setValues({
       name: student ? student.name : '',
       email: student ? student.email : ''
     });
@@ -79,75 +119,53 @@ function UpdateStudent() {
     setOpenSnackbar(false);
   };
 
+  // const handleSnackbarClose = (event, reason) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
+  //   setOpenSnackbar(false);
+  // };
 
 
 
-
-
-
-
-
-
-
-
-  
   return (
-    <div id='update_student'>
+    <>
+      <form onSubmit={formikCreate.handleSubmit}>
       <Typography variant="h5" gutterBottom>
-        Update Existing Student
+        Create New Student
       </Typography>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          formik.handleSubmit();
-        }}
-      >
-        <FormControl fullWidth margin="normal">
-          <InputLabel id="student-label">Student</InputLabel>
-          <Select
-            labelId="student-label"
-            id="student"
-            label="student"
-            value={selectedStudent ? selectedStudent.id : ''}
-            onChange={handleStudentChange}
-          >
-            <MenuItem value="" disabled>Select student</MenuItem>
-            {students.map((student) => (
-              <MenuItem key={student.id} value={student.id}>
-                {student.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <TextField
-          id="name"
-          name='name'
-          label="New Name"
-          variant="outlined"
-          fullWidth
-          value={formik.values.name}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.name && Boolean(formik.errors.name)}
-          helperText={formik.touched.name && formik.errors.name}
-          margin="normal"
-        />
-        <TextField
-          id="email"
-          name='email'
-          label="New Email"
-          variant="outlined"
-          fullWidth
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-          margin="normal"
-        />
-        <Button type="submit" variant="contained" color="primary">
-          Update Student
-        </Button>
+      {errorMessage && (
+        <Typography variant="body2" color="error" gutterBottom>
+          {errorMessage}
+        </Typography>
+      )}
+      <TextField
+        id="name"
+        name="name"
+        label="Name"
+        variant="outlined"
+        fullWidth
+        value={formikCreate.values.name}
+        onChange={formikCreate.handleChange}
+        error={formikCreate.touched.name && Boolean(formikCreate.errors.name)}
+        helperText={formikCreate.touched.name && formikCreate.errors.name}
+        margin="normal"
+      />
+      <TextField
+        id="email"
+        name="email"
+        label="Email"
+        variant="outlined"
+        fullWidth
+        value={formikCreate.values.email}
+        onChange={formikCreate.handleChange}
+        error={formikCreate.touched.email && Boolean(formikCreate.errors.email)}
+        helperText={formikCreate.touched.email && formikCreate.errors.email}
+        margin="normal"
+      />
+      <Button type="submit" variant="contained" color="primary">
+        Register
+      </Button>
       </form>
       <Snackbar
         open={openSnackbar}
@@ -159,12 +177,81 @@ function UpdateStudent() {
           {successMessage}
         </MuiAlert>
       </Snackbar>
-      {errorMessage && (
-        <Typography variant="body2" color="error" gutterBottom>
-          {errorMessage}
+      <div id='update_student'>
+        <Typography variant="h5" gutterBottom>
+          Update Existing Student
         </Typography>
-      )}
-    </div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            formikUpdate.handleSubmit();
+          }}
+        >
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="student-label">Student</InputLabel>
+            <Select
+              labelId="student-label"
+              id="student"
+              label="student"
+              value={selectedStudent ? selectedStudent.id : ''}
+              onChange={handleStudentChange}
+            >
+              <MenuItem value="" disabled>Select student</MenuItem>
+              {students.map((student) => (
+                <MenuItem key={student.id} value={student.id}>
+                  {student.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            id="name"
+            name='name'
+            label="New Name"
+            variant="outlined"
+            fullWidth
+            value={formikUpdate.values.name}
+            onChange={formikUpdate.handleChange}
+            onBlur={formikUpdate.handleBlur}
+            error={formikUpdate.touched.name && Boolean(formikUpdate.errors.name)}
+            helperText={formikUpdate.touched.name && formikUpdate.errors.name}
+            margin="normal"
+          />
+          <TextField
+            id="email"
+            name='email'
+            label="New Email"
+            variant="outlined"
+            fullWidth
+            value={formikUpdate.values.email}
+            onChange={formikUpdate.handleChange}
+            onBlur={formikUpdate.handleBlur}
+            error={formikUpdate.touched.email && Boolean(formikUpdate.errors.email)}
+            helperText={formikUpdate.touched.email && formikUpdate.errors.email}
+            margin="normal"
+          />
+          <Button type="submit" variant="contained" color="primary">
+            Update Student
+          </Button>
+        </form>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleSnackbarClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        >
+          <MuiAlert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
+            {successMessage}
+          </MuiAlert>
+        </Snackbar>
+        {errorMessage && (
+          <Typography variant="body2" color="error" gutterBottom>
+            {errorMessage}
+          </Typography>
+        )}
+      </div>
+    </>
+
   );
 }
 
