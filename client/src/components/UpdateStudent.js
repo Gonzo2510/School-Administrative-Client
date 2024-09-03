@@ -73,7 +73,7 @@ function UpdateStudent() {
     },
     validationSchema: updateFormSchema,
     onSubmit: (formData, { resetForm }) => {
-      fetch(`${apiURL}/${selectedStudent.id}`, {
+      fetch(`${apiURL}/student/${selectedStudent.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
