@@ -19,8 +19,8 @@ function CourseContainer() {
             <Course
               id={courseObj.id}
               description={courseObj.description}
-              instructorName={courseObj.instructor.name}
-              departmentName={courseObj.department.name}
+              instructorName={courseObj.instructor ? courseObj.instructor.name : ''}
+              departmentName={courseObj.department ? courseObj.department.name : ''}
               name={courseObj.name}
               students={courseObj.students}
               onDelete={handleDeleteCourse}
