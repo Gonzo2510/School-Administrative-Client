@@ -33,15 +33,15 @@ const Students = styled(Typography)({
 });
 
 function Course({ description, id, instructorName, departmentName, name, students, onDelete }) {
-  const studentNames = students.map(student => student.name).join(', ');
+  const studentNames = students.length > 0 ? students.map(student => student.name).join(', ') : 'No students yet';
 
   return (
     <CourseCard elevation={3}>
       <CardContent>
         <Title>{name}</Title>
         <Description>{description}</Description>
-        <Instructor>Instructor: {instructorName}</Instructor>
-        <Department>Department: {departmentName}</Department>
+        <Instructor>Instructor: {instructorName ? instructorName : 'Not yet assigned'}</Instructor>
+        <Department>Department: {departmentName ? departmentName : 'Not yet assigned'}</Department>
         <Students>Students: {studentNames}</Students>
         <Button onClick={() => (onDelete(id))} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
       </CardContent>
