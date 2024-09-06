@@ -13,11 +13,13 @@ function Instructor({ name, courses, id, onDelete }) {
         <div className="card_courses">
           <Typography variant="subtitle1">Courses:</Typography>
           <List>
-            {courses.map((c) => (
+            {courses.length > 0 ? (
+              courses.map((c) => (
               <ListItem key={c.id}>
                 <ListItemText primary={c.name} />
               </ListItem>
-            ))}
+              ))) : "No courses yet"
+            }
           </List>
           <Button onClick={() => (onDelete(id))} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
         </div>
