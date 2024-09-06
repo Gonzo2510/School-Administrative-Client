@@ -322,7 +322,7 @@ def instructor():
     return response
 
 
-@app.route('/instructor/<int:id>', methods= ["GET", "DELETE", "POST"])
+@app.route('/instructor/<int:id>', methods= ["GET", "DELETE", "PATCH"])
 def delete_instructor(id):
     instructor = Instructor.query.filter(Instructor.id == id).first()
 
