@@ -17,18 +17,9 @@ class Enrollment(db.Model, SerializerMixin):
     course = db.relationship('Course', back_populates='enrollments')
 
     serialize_rules = (
-        '-student_id',
-        '-course_id',
         '-student.email',
         '-student.enrollments',
-        '-student.courses',
-        '-course.department',
-        '-course.instructor',
-        '-course.instructor_id',
-        '-course.department_id',
-        '-course.description',
         '-course.enrollments',
-        '-course.students',
     )
 
 

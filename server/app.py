@@ -369,35 +369,40 @@ def delete_instructor(id):
     return response
 
 
-@app.route('/enrollments', methods=['GET','POST'])
+@app.route('/enrollments', methods=['GET', 'POST'])
 def create_enrollment():
 
     if request.method == 'GET':
-
         enrollments = Enrollment.query.all()
         enrollment_dict = [enrollment.to_dict() for enrollment in enrollments]
-
-        response = make_response(
-            enrollment_dict,
-            200
-        )
+        response = make_response(enrollment_dict, 200)
         return response
 
     elif request.method == 'POST':
         data = request.get_json()
-        print("")
-        print("")
-        print(data)
-        print("")
-        print("")
-        new_enrollment = Enrollment(
-            student_id=data['student_id'],
-            course_id=data['course_id'],
-            grade=data['grade']
-        )
-        db.session.add(new_enrollment)
-        db.session.commit()
-        return jsonify(new_enrollment.serialize()), 201
+        
+        # Validate student_id and course_id
+        student = Student.query.get(data.get('student_id'))
+        course = Course.query.get(data.get('course_id'))
+
+        if not student:
+            return jsonify({"error": "Invalid student_id"}), 400
+        if not course:
+            return jsonify({"error": "Invalid course_id"}), 400
+
+        try:
+            new_enrollment = Enrollment(
+                student_id=data['student_id'],
+                course_id=data['course_id'],
+                grade=data['grade']
+            )
+            db.session.add(new_enrollment)
+            db.session.commit()
+
+            return jsonify(new_enrollment.serialize()), 201
+        except Exception as e:
+            return jsonify({"error": "Internal Server Error", "message": str(e)}), 500
+
 
 
 
