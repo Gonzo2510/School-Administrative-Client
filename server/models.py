@@ -1,10 +1,10 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
+from sqlalchemy import CheckConstraint
 
 from config import db
 
 # Models
-
 
 class Enrollment(db.Model, SerializerMixin):
     __tablename__ = 'enrollments'
@@ -22,6 +22,12 @@ class Enrollment(db.Model, SerializerMixin):
         '-course.enrollments',
     )
 
+    __table_args__ = (
+        CheckConstraint('grade BETWEEN 0.00 AND 100.00', name='grade_check'),
+    )
+
+    def __repr__(self):
+        return f'<Enrollment id={self.id}, student={self.student.name}, course={self.course.name}, grade={self.grade}>'
 
 class Student(db.Model, SerializerMixin):
     __tablename__ = 'students'
@@ -36,14 +42,14 @@ class Student(db.Model, SerializerMixin):
 
     @validates('name')
     def validate_name(self, key, name):
-        if not name:
-            raise ValueError('Student name is required')
+        if not name or len(name) < 1:
+            raise ValueError('Student name must have at least one character.')
         return name
 
     @validates('email')
     def validate_email(self, key, email):
-        if not email:
-            raise ValueError('Student email is required')
+        if not email or '@' not in email:
+            raise ValueError('Invalid email format.')
         return email
 
     def __repr__(self):
@@ -79,10 +85,16 @@ class Course(db.Model, SerializerMixin):
 
     @validates('name')
     def validate_name(self, key, name):
-        if not name:
-            raise ValueError('Course name is required')
+        if not name or len(name) < 1:
+            raise ValueError('Course name must have at least one character.')
         return name
 
+    @validates('description')
+    def validate_description(self, key, description):
+        if not description or len(description) < 5:
+            raise ValueError('Description must have at least 5 characters.')
+        return description
+    
     def __repr__(self):
         return f'<Course {self.name}>'
 
@@ -96,6 +108,12 @@ class Department(db.Model, SerializerMixin):
 
     serialize_rules = ('-courses.department',)
 
+    @validates('name')
+    def validate_name(self, key, name):
+        if not name or len(name) < 1:
+            raise ValueError('Department name must have at least one character.')
+        return name
+
     def __repr__(self):
         return f'<Department {self.id}, {self.name}>'
 
@@ -104,10 +122,16 @@ class Instructor(db.Model, SerializerMixin):
     __tablename__ = 'instructors'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
-    
+
     courses = db.relationship('Course', back_populates='instructor')
 
     serialize_rules = ('-courses.instructor',)
+
+    @validates('name')
+    def validate_name(self, key, name):
+        if not name or len(name) < 1:
+            raise ValueError('Instructor name must have at least one character.')
+        return name
 
     def __repr__(self):
         return f'<Instructor {self.id}, {self.name}>'
