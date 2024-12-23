@@ -30,7 +30,7 @@ class Student(db.Model, SerializerMixin):
     email = db.Column(db.String, unique=True, nullable=False)
 
     enrollments = db.relationship('Enrollment', back_populates='student', cascade='all, delete-orphan')
-    courses = db.relationship('Course', secondary='enrollments', back_populates='students', overlaps="courses,enrollments")
+    courses = db.relationship('Course', secondary='enrollments', back_populates='students', overlaps="enrollments")
 
     serialize_rules = ('-enrollments.student', '-enrollments.course', '-courses.students')
 
@@ -60,7 +60,7 @@ class Course(db.Model, SerializerMixin):
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
 
     enrollments = db.relationship('Enrollment', back_populates='course', cascade='all, delete-orphan')
-    students = db.relationship('Student', secondary='enrollments', back_populates='courses', overlaps="students,enrollments")
+    students = db.relationship('Student', secondary='enrollments', back_populates='courses', overlaps="enrollments")
 
     instructor = db.relationship("Instructor", back_populates='courses')
     department = db.relationship('Department', back_populates='courses')
