@@ -36,9 +36,9 @@ class Student(db.Model, SerializerMixin):
     email = db.Column(db.String, unique=True, nullable=False)
 
     enrollments = db.relationship('Enrollment', back_populates='student', cascade='all, delete-orphan')
-    courses = db.relationship('Course', secondary='enrollments', back_populates='students', overlaps="enrollments")
+    courses = db.relationship('Course', secondary='enrollments', back_populates='students')
 
-    serialize_rules = ('-enrollments.student', '-enrollments.course', '-courses.students')
+    serialize_rules = ('-enrollments', '-courses.students', '-courses.enrollments')
 
     @validates('name')
     def validate_name(self, key, name):
@@ -66,22 +66,13 @@ class Course(db.Model, SerializerMixin):
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
 
     enrollments = db.relationship('Enrollment', back_populates='course', cascade='all, delete-orphan')
-    students = db.relationship('Student', secondary='enrollments', back_populates='courses', overlaps="enrollments")
+    students = db.relationship('Student', secondary='enrollments', back_populates='courses')
 
     instructor = db.relationship("Instructor", back_populates='courses')
     department = db.relationship('Department', back_populates='courses')
 
-    serialize_rules = (
-        '-enrollments.course',
-        '-students.courses',
-        '-instructor.courses',
-        '-department.courses',
-        '-department_id',
-        '-enrollments',
-        '-instructor_id',
-        '-students.enrollments',
-        '-students.email',
-    )
+    serialize_rules = ('-enrollments', '-students.courses', '-students.enrollments', '-instructor', '-department')
+
 
     @validates('name')
     def validate_name(self, key, name):
@@ -106,7 +97,7 @@ class Department(db.Model, SerializerMixin):
 
     courses = db.relationship('Course', back_populates='department')
 
-    serialize_rules = ('-courses.department',)
+    serialize_rules = ('-courses',)
 
     @validates('name')
     def validate_name(self, key, name):
@@ -125,7 +116,7 @@ class Instructor(db.Model, SerializerMixin):
 
     courses = db.relationship('Course', back_populates='instructor')
 
-    serialize_rules = ('-courses.instructor',)
+    serialize_rules = ('-courses',)
 
     @validates('name')
     def validate_name(self, key, name):
