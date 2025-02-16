@@ -40,17 +40,17 @@ const EnrollmentForm = () => {
 
         const response = await fetch(`${apiURL}/enrollments`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(postData),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to submit form. Please check if the student/course combination exists.');
-        }
+      });
 
         const data = await response.json();
+
+        if (!response.ok) {
+            const errorMessageFromBackend = data.error || data.message;
+            throw new Error(errorMessageFromBackend || 'Failed to submit form.');
+        }
+
         resetForm();
         setSelectedStudent(null);
         setSelectedCourse(null);
@@ -58,10 +58,11 @@ const EnrollmentForm = () => {
         setSuccessMessage(`Submitted ${postData.grade} for ${selectedStudent.name} in ${selectedCourse.name}.`);
         setOpenSnackbar(true);
         fetchCourses()
+
       } catch (error) {
         console.error('Error submitting form:', error);
         setSuccessMessage('');
-        setErrorMessage('Error, Student/course combination does not exist.');
+        setErrorMessage(error.message || 'Error creating enrollment.');
       }
     },
   });
