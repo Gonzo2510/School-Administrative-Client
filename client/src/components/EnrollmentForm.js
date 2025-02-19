@@ -26,45 +26,46 @@ const EnrollmentForm = () => {
     validationSchema: formSchema,
     onSubmit: async (formData, { resetForm }) => {
       try {
-        const selectedCourse = courses.find((course) => course.id === parseInt(formData.course));
-
-        if (!selectedStudent || !selectedCourse) {
-          throw new Error('Invalid student or course selection');
-        }
-
-        const postData = {
-          student_id: selectedStudent.id,
-          course_id: selectedCourse.id,
-          grade: formData.grade,
-        };
-
-        const response = await fetch(`${apiURL}/enrollments`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(postData),
-      });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            const errorMessageFromBackend = data.error || data.message;
-            throw new Error(errorMessageFromBackend || 'Failed to submit form.');
-        }
-
-        resetForm();
-        setSelectedStudent(null);
-        setSelectedCourse(null);
-        setErrorMessage('');
-        setSuccessMessage(`Submitted ${postData.grade} for ${selectedStudent.name} in ${selectedCourse.name}.`);
-        setOpenSnackbar(true);
-        fetchCourses()
-
+          const selectedCourse = courses.find((course) => course.id === parseInt(formData.course));
+  
+          if (!selectedStudent ||!selectedCourse) {
+              throw new Error('Invalid student or course selection');
+          }
+  
+          const postData = {
+              student_id: selectedStudent.id,
+              course_id: selectedCourse.id,
+              grade: parseInt(formData.grade, 10), // Explicitly convert grade to number
+          };
+  
+          const response = await fetch(`${apiURL}/enrollments`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(postData),
+          });
+  
+          const data = await response.json();
+  
+          if (!response.ok) {
+              const errorMessageFromBackend = data.error || data.message;
+              throw new Error(errorMessageFromBackend || 'Failed to submit form.');
+          }
+  
+          resetForm();
+          setSelectedStudent(null);
+          setSelectedCourse(null);
+          setErrorMessage('');
+          
+          fetchCourses(); // Fetch updated courses before setting success message
+          setSuccessMessage(`Submitted ${postData.grade} for ${selectedStudent.name} in ${selectedCourse.name}.`); 
+          setOpenSnackbar(true);
+  
       } catch (error) {
-        console.error('Error submitting form:', error);
-        setSuccessMessage('');
-        setErrorMessage(error.message || 'Error creating enrollment.');
+          console.error('Error submitting form:', error);
+          setSuccessMessage('');
+          setErrorMessage(error.message || 'Error creating enrollment.');
       }
-    },
+  },
   });
 
   const handleSnackbarClose = (event, reason) => {
